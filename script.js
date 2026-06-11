@@ -163,6 +163,7 @@ const translations = {
       sending: "Sending request...",
       tokenMissing: "Telegram Bot Token or Chat ID is not filled in. Add them in script.js before sending requests.",
       error: "Request was not sent. Please check the Telegram settings and try again.",
+      networkError: "Request was not sent. Browser could not reach Telegram API. Check internet, token and hosting restrictions.",
       success: "Request sent successfully. Thank you!",
       projectTypes: ["AI animated video", "3D cartoon story", "Commercial / ad", "Social media content", "Music video", "Wedding / love story", "Custom project"],
       packages: { basic: "Basic — Short AI Clip", standard: "Standard — Animated Story Video", premium: "Premium — Full AI Animated Story", custom: "Custom project" }
@@ -255,7 +256,7 @@ const translations = {
     },
     form: {
       name: "Имя", email: "Email", messenger: "Telegram / WhatsApp", projectLanguage: "Язык проекта", projectType: "Тип проекта", package: "Выберите пакет", addons: "Дополнительные услуги", idea: "Идея / описание проекта", references: "Ссылка на референсы", deadline: "Дедлайн", budget: "Бюджет", total: "Предварительная сумма", confirm: "Я понимаю, что финальная цена может измениться после обсуждения проекта", submit: "Отправить заявку",
-      required: "Пожалуйста, заполните обязательные поля и подтвердите примечание о цене.", sending: "Отправляю заявку...", tokenMissing: "Telegram Bot Token или Chat ID не заполнены. Добавьте их в script.js перед отправкой заявок.", error: "Заявка не отправилась. Проверьте настройки Telegram и попробуйте снова.", success: "Заявка успешно отправлена. Спасибо!",
+      required: "Пожалуйста, заполните обязательные поля и подтвердите примечание о цене.", sending: "Отправляю заявку...", tokenMissing: "Telegram Bot Token или Chat ID не заполнены. Добавьте их в script.js перед отправкой заявок.", error: "Заявка не отправилась. Проверьте настройки Telegram и попробуйте снова.", networkError: "Заявка не отправилась. Браузер не смог подключиться к Telegram API. Проверьте интернет, токен и ограничения хостинга.", success: "Заявка успешно отправлена. Спасибо!",
       projectTypes: ["AI-анимационное видео", "3D cartoon story", "Реклама / креатив", "Контент для соцсетей", "Музыкальное видео", "Wedding / love story", "Индивидуальный проект"],
       packages: { basic: "Basic — Short AI Clip", standard: "Standard — Animated Story Video", premium: "Premium — Full AI Animated Story", custom: "Индивидуальный проект" }
     },
@@ -341,7 +342,7 @@ const translations = {
     },
     form: {
       name: "Імʼя", email: "Email", messenger: "Telegram / WhatsApp", projectLanguage: "Мова проєкту", projectType: "Тип проєкту", package: "Оберіть пакет", addons: "Додаткові послуги", idea: "Ідея / опис проєкту", references: "Посилання на референси", deadline: "Дедлайн", budget: "Бюджет", total: "Попередня сума", confirm: "Я розумію, що фінальна ціна може змінитися після обговорення проєкту", submit: "Надіслати заявку",
-      required: "Будь ласка, заповніть обовʼязкові поля та підтвердьте примітку про ціну.", sending: "Надсилаю заявку...", tokenMissing: "Telegram Bot Token або Chat ID не заповнені. Додайте їх у script.js перед відправкою заявок.", error: "Заявку не надіслано. Перевірте налаштування Telegram і спробуйте ще раз.", success: "Заявку успішно надіслано. Дякую!",
+      required: "Будь ласка, заповніть обовʼязкові поля та підтвердьте примітку про ціну.", sending: "Надсилаю заявку...", tokenMissing: "Telegram Bot Token або Chat ID не заповнені. Додайте їх у script.js перед відправкою заявок.", error: "Заявку не надіслано. Перевірте налаштування Telegram і спробуйте ще раз.", networkError: "Заявку не надіслано. Браузер не зміг підключитися до Telegram API. Перевірте інтернет, токен і обмеження хостингу.", success: "Заявку успішно надіслано. Дякую!",
       projectTypes: ["AI-анімаційне відео", "3D cartoon story", "Реклама / креатив", "Контент для соцмереж", "Музичне відео", "Wedding / love story", "Індивідуальний проєкт"],
       packages: { basic: "Basic — Short AI Clip", standard: "Standard — Animated Story Video", premium: "Premium — Full AI Animated Story", custom: "Індивідуальний проєкт" }
     },
@@ -552,17 +553,20 @@ async function handleSubmit(event) {
   setStatus(translations[currentLang].form.sending);
 
   try {
-    const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        chat_id: TELEGRAM_CHAT_ID,
-        text: buildTelegramMessage(form)
-      })
+    const body = new URLSearchParams({
+      chat_id: TELEGRAM_CHAT_ID,
+      text: buildTelegramMessage(form)
     });
 
+    const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
+      method: "POST",
+      body
+    });
+    const result = await response.json().catch(() => null);
+
     if (!response.ok) {
-      throw new Error(`Telegram API error: ${response.status}`);
+      const telegramMessage = result?.description || `Telegram API error: ${response.status}`;
+      throw new Error(telegramMessage);
     }
 
     form.reset();
@@ -571,7 +575,10 @@ async function handleSubmit(event) {
     setStatus(translations[currentLang].form.success, "success");
   } catch (error) {
     console.error(error);
-    setStatus(translations[currentLang].form.error, "error");
+    const message = error instanceof TypeError
+      ? translations[currentLang].form.networkError
+      : `${translations[currentLang].form.error} ${error.message}`;
+    setStatus(message, "error");
   }
 }
 
