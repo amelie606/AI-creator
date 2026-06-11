@@ -1,0 +1,238 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Creator Studio — Cinematic AI Animation & Video Production</title>
+  <meta name="description" content="Professional AI animation, cinematic 3D cartoon-style videos, characters, commercials, social media content and custom visual stories.">
+  <meta property="og:title" content="AI Creator Studio — Cinematic AI Animation & Video Production">
+  <meta property="og:description" content="Professional AI animation, cinematic 3D cartoon-style videos, characters, commercials, social media content and custom visual stories.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="preview.jpg">
+  <meta name="theme-color" content="#090912">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <div class="ambient ambient-one"></div>
+  <div class="ambient ambient-two"></div>
+
+  <header class="site-header">
+    <a class="logo" href="#home" aria-label="AI Creator Studio home">
+      <span class="logo-mark">AI</span>
+      <span>Creator Studio</span>
+    </a>
+
+    <nav class="nav" id="mainNav" aria-label="Main navigation">
+      <a href="#home" data-i18n="nav.home">Home</a>
+      <a href="#services" data-i18n="nav.services">Services</a>
+      <a href="#packages" data-i18n="nav.packages">Packages</a>
+      <a href="#portfolio" data-i18n="nav.portfolio">Portfolio</a>
+      <a href="#process" data-i18n="nav.process">Process</a>
+      <a href="#faq" data-i18n="nav.faq">FAQ</a>
+      <a href="#order" data-i18n="nav.order">Order</a>
+    </nav>
+
+    <div class="header-actions">
+      <div class="language-switcher" aria-label="Language switcher">
+        <button class="lang-btn" type="button" data-lang="ua">UA</button>
+        <button class="lang-btn" type="button" data-lang="ru">RU</button>
+        <button class="lang-btn active" type="button" data-lang="en">EN</button>
+      </div>
+      <a class="btn btn-small btn-primary" href="#order" data-i18n="nav.cta">Order now</a>
+      <button class="menu-toggle" type="button" aria-label="Open menu" aria-expanded="false">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero section reveal" id="home">
+      <div class="hero-content">
+        <p class="eyebrow" data-i18n="hero.eyebrow">From idea to final video</p>
+        <h1 data-i18n="hero.title">Cinematic AI animation, characters and visual worlds for brands and stories.</h1>
+        <p class="hero-text" data-i18n="hero.text">I create cinematic AI videos, 3D cartoon-style stories, animated characters and complete visual production from your idea.</p>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#packages" data-i18n="hero.choose">Choose package</a>
+          <button class="btn btn-secondary" type="button" data-action="custom-project" data-i18n="hero.custom">Custom project</button>
+          <a class="btn btn-ghost" href="#services" data-i18n="hero.services">View services</a>
+        </div>
+      </div>
+
+      <div class="hero-visual" aria-label="Studio capabilities">
+        <div class="video-frame">
+          <div class="play-ring"><span></span></div>
+          <div class="signal-bars"><i></i><i></i><i></i><i></i></div>
+          <p data-i18n="hero.visualTitle">AI Animation Engine</p>
+        </div>
+        <div class="capability-cloud">
+          <span data-i18n="hero.capabilities.0">AI Animation</span>
+          <span data-i18n="hero.capabilities.1">3D Characters</span>
+          <span data-i18n="hero.capabilities.2">Voiceover</span>
+          <span data-i18n="hero.capabilities.3">Storytelling</span>
+          <span data-i18n="hero.capabilities.4">Commercial Videos</span>
+          <span data-i18n="hero.capabilities.5">Social Media Content</span>
+        </div>
+      </div>
+    </section>
+
+    <section class="section reveal" id="services">
+      <div class="section-heading">
+        <p class="eyebrow" data-i18n="services.eyebrow">What I can create</p>
+        <h2 data-i18n="services.title">AI production for ads, stories, characters and social content.</h2>
+      </div>
+      <div class="cards-grid service-grid" id="servicesGrid"></div>
+    </section>
+
+    <section class="section reveal" id="packages">
+      <div class="section-heading">
+        <p class="eyebrow" data-i18n="packages.eyebrow">Packages</p>
+        <h2 data-i18n="packages.title">Clear starting points for your AI video.</h2>
+      </div>
+      <div class="packages-grid" id="packagesGrid"></div>
+    </section>
+
+    <section class="section reveal addons-section" id="addons">
+      <div class="section-heading compact">
+        <p class="eyebrow" data-i18n="addons.eyebrow">Add-ons</p>
+        <h2 data-i18n="addons.title">Upgrade the production when your story needs more.</h2>
+      </div>
+      <div class="addons-grid" id="addonsGrid"></div>
+    </section>
+
+    <section class="custom-band reveal" id="custom">
+      <div>
+        <p class="eyebrow" data-i18n="custom.eyebrow">Custom Project</p>
+        <h2 data-i18n="custom.title">Need something unique?</h2>
+        <p data-i18n="custom.text">Tell me your idea and I will create a custom AI production plan for you.</p>
+      </div>
+      <button class="btn btn-primary" type="button" data-action="custom-project" data-i18n="custom.button">Plan custom project</button>
+    </section>
+
+    <section class="section reveal" id="portfolio">
+      <div class="section-heading">
+        <p class="eyebrow" data-i18n="portfolio.eyebrow">Portfolio</p>
+        <h2 data-i18n="portfolio.title">Video preview concepts for future real cases.</h2>
+        <p data-i18n="portfolio.note">Real works can be added here later.</p>
+      </div>
+      <div class="portfolio-grid" id="portfolioGrid"></div>
+    </section>
+
+    <section class="section reveal" id="process">
+      <div class="section-heading">
+        <p class="eyebrow" data-i18n="process.eyebrow">How it works</p>
+        <h2 data-i18n="process.title">A clean process from rough idea to polished final video.</h2>
+      </div>
+      <div class="process-grid" id="processGrid"></div>
+    </section>
+
+    <section class="section reveal" id="faq">
+      <div class="section-heading">
+        <p class="eyebrow" data-i18n="faq.eyebrow">FAQ</p>
+        <h2 data-i18n="faq.title">Answers before we start creating.</h2>
+      </div>
+      <div class="faq-list" id="faqList"></div>
+    </section>
+
+    <section class="section reveal order-section" id="order">
+      <div class="section-heading">
+        <p class="eyebrow" data-i18n="order.eyebrow">Order</p>
+        <h2 data-i18n="order.title">Send your AI project request.</h2>
+      </div>
+
+      <form class="order-form" id="orderForm" novalidate>
+        <div class="form-grid">
+          <label>
+            <span data-i18n="form.name">Name</span>
+            <input type="text" name="name" required>
+          </label>
+          <label>
+            <span data-i18n="form.email">Email</span>
+            <input type="email" name="email" required>
+          </label>
+          <label>
+            <span data-i18n="form.messenger">Telegram / WhatsApp</span>
+            <input type="text" name="messenger" required>
+          </label>
+          <label>
+            <span data-i18n="form.projectLanguage">Language of project</span>
+            <input type="text" name="projectLanguage" required>
+          </label>
+          <label>
+            <span data-i18n="form.projectType">Project type</span>
+            <select name="projectType" id="projectType" required></select>
+          </label>
+          <label>
+            <span data-i18n="form.package">Select package</span>
+            <select name="package" id="packageSelect" required></select>
+          </label>
+        </div>
+
+        <fieldset class="form-addons">
+          <legend data-i18n="form.addons">Add-ons</legend>
+          <div class="addons-checklist" id="formAddons"></div>
+        </fieldset>
+
+        <label class="full">
+          <span data-i18n="form.idea">Project idea / description</span>
+          <textarea name="idea" rows="6" required></textarea>
+        </label>
+
+        <div class="form-grid">
+          <label>
+            <span data-i18n="form.references">References link</span>
+            <input type="url" name="references">
+          </label>
+          <label>
+            <span data-i18n="form.deadline">Deadline</span>
+            <input type="text" name="deadline">
+          </label>
+          <label>
+            <span data-i18n="form.budget">Budget</span>
+            <input type="text" name="budget">
+          </label>
+          <div class="total-box">
+            <span data-i18n="form.total">Estimated total</span>
+            <strong id="totalPrice">$0</strong>
+          </div>
+        </div>
+
+        <label class="confirm-line">
+          <input type="checkbox" name="priceConfirm" required>
+          <span data-i18n="form.confirm">I understand that final price may change after discussing the project</span>
+        </label>
+
+        <div class="form-footer">
+          <button class="btn btn-primary" type="submit" data-i18n="form.submit">Send request</button>
+          <p class="form-status" id="formStatus" role="status" aria-live="polite"></p>
+        </div>
+      </form>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <div>
+      <a class="logo" href="#home"><span class="logo-mark">AI</span><span>Creator Studio</span></a>
+      <p data-i18n="footer.tagline">Cinematic AI animation from idea to final video.</p>
+    </div>
+    <div>
+      <h3 data-i18n="footer.services">Services</h3>
+      <a href="#services" data-i18n="nav.services">Services</a>
+      <a href="#portfolio" data-i18n="nav.portfolio">Portfolio</a>
+    </div>
+    <div>
+      <h3 data-i18n="footer.packages">Packages</h3>
+      <a href="#packages">Basic / Standard / Premium</a>
+      <a href="#custom" data-i18n="custom.title">Need something unique?</a>
+    </div>
+    <div>
+      <h3 data-i18n="footer.contact">Contact</h3>
+      <a href="#">Instagram</a>
+      <a href="#">TikTok</a>
+      <a href="#">YouTube</a>
+    </div>
+    <p class="copyright">© <span id="year"></span> AI Creator Studio. <span data-i18n="footer.rights">All rights reserved.</span></p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
