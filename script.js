@@ -1,5 +1,5 @@
-const TELEGRAM_BOT_TOKEN = "PASTE_YOUR_BOT_TOKEN_HERE"; // Insert your Telegram Bot Token here.
-const TELEGRAM_CHAT_ID = "PASTE_YOUR_CHAT_ID_HERE"; // Insert your Telegram Chat ID here.
+const TELEGRAM_BOT_TOKEN = "8950411356:AAH_2_08pZmn8iiy8aZWHfzyTSjlTWFkxEY"; // Insert your Telegram Bot Token here.
+const TELEGRAM_CHAT_ID = "5053711365"; // Insert your Telegram Chat ID here.
 
 const packagePrices = {
   basic: 55,
