@@ -1,356 +1,410 @@
 const TELEGRAM_BOT_TOKEN = "8950411356:AAH_2_08pZmn8iiy8aZWHfzyTSjlTWFkxEY"; // Insert your Telegram Bot Token here.
 const TELEGRAM_CHAT_ID = "181670351"; // Insert your Telegram Chat ID here.
 
-const packagePrices = {
-  basic: 55,
-  standard: 220,
-  premium: 420,
-  custom: 0
+const TELEGRAM_BUTTON_CUSTOM_EMOJI = {
+  reply: "", // Optional custom emoji ID for the reply button. Empty value falls back to regular emoji.
+  references: "" // Optional custom emoji ID for the references button. Empty value falls back to regular emoji.
 };
 
-const addons = [
-  { id: "extra30", price: 50 },
-  { id: "extra60", price: 100 },
-  { id: "character", price: 25 },
-  { id: "scene", price: 35 },
-  { id: "script", price: 50 },
-  { id: "storyboard", price: 70 },
-  { id: "voiceover", price: 60 },
-  { id: "subtitles", price: 20 },
-  { id: "fourK", price: 50 },
-  { id: "fast", price: 100 },
-  { id: "rights", price: 80 },
-  { id: "revision", price: 20 }
-];
+const serviceOrder = ["aiVideo", "aiSong", "websites", "bots"];
+
+const priceData = {
+  aiVideo: {
+    packages: [
+      { id: "videoStarter", price: 75 },
+      { id: "videoStory", price: 240 },
+      { id: "videoProduction", price: 480 }
+    ],
+    addons: [
+      { id: "extra30", price: 55 },
+      { id: "extraScene", price: 45 },
+      { id: "extraCharacter", price: 30 },
+      { id: "scenePlan", price: 70 },
+      { id: "aiVoiceover", price: 40 },
+      { id: "subtitles", price: 25 },
+      { id: "fourK", price: 50 },
+      { id: "fast", price: 120 },
+      { id: "minorRevision", price: 30 },
+      { id: "sceneRemake", price: 70 }
+    ]
+  },
+  aiSong: {
+    packages: [
+      { id: "songMini", price: 65 },
+      { id: "songFull", price: 160 },
+      { id: "songEvent", price: 280 }
+    ],
+    addons: [
+      { id: "extraVerse", price: 35 },
+      { id: "instrumental", price: 30 },
+      { id: "secondVoice", price: 45 },
+      { id: "lyricVideo", price: 90 },
+      { id: "coverArt", price: 35 },
+      { id: "greetingIntro", price: 25 },
+      { id: "fastSong", price: 80 },
+      { id: "songRevision", price: 25 }
+    ]
+  },
+  websites: {
+    packages: [
+      { id: "siteInvite", price: 260 },
+      { id: "siteLanding", price: 390 },
+      { id: "sitePremium", price: 620 }
+    ],
+    addons: [
+      { id: "rsvpTelegram", price: 80 },
+      { id: "extraSection", price: 45 },
+      { id: "multilang", price: 90 },
+      { id: "gallery", price: 50 },
+      { id: "customAnimation", price: 70 },
+      { id: "deployHelp", price: 60 },
+      { id: "privacyPage", price: 50 },
+      { id: "fastSite", price: 140 }
+    ]
+  },
+  bots: {
+    packages: [
+      { id: "botStarter", price: 220 },
+      { id: "botBusiness", price: 420 },
+      { id: "botMiniApp", price: 750 }
+    ],
+    addons: [
+      { id: "extraFlow", price: 70 },
+      { id: "sheets", price: 120 },
+      { id: "adminPanel", price: 180 },
+      { id: "payments", price: 180 },
+      { id: "reminders", price: 90 },
+      { id: "analytics", price: 100 },
+      { id: "deployBot", price: 80 },
+      { id: "fastBot", price: 180 }
+    ]
+  }
+};
 
 const translations = {
   en: {
-    nav: {
-      home: "Home",
-      services: "Services",
-      packages: "Packages",
-      portfolio: "Portfolio",
-      process: "Process",
-      faq: "FAQ",
-      order: "Order",
-      cta: "Order now"
-    },
+    nav: { home: "Home", services: "Services", packages: "Packages", portfolio: "Portfolio", process: "Process", faq: "FAQ", order: "Order", cta: "Order now" },
     hero: {
-      eyebrow: "From idea to final video",
-      title: "Cinematic AI animation, characters and visual worlds for brands and stories.",
-      text: "I create cinematic AI videos, 3D cartoon-style stories, animated characters and complete visual production from your idea.",
-      choose: "Choose package",
+      eyebrow: "Creative AI studio for emotional digital projects",
+      title: "AI emotions, songs, websites and smart Telegram tools for unforgettable moments.",
+      text: "Mult emotion creates AI videos, custom songs, event websites, landing pages, Telegram bots and mini apps from idea to polished launch.",
+      choose: "Choose service",
       custom: "Custom project",
       services: "View services",
-      visualTitle: "AI Animation Engine",
-      capabilities: ["AI Animation", "3D Characters", "Voiceover", "Storytelling", "Commercial Videos", "Social Media Content"]
+      visualTitle: "Creative Production Engine",
+      capabilities: ["AI Video", "AI Songs", "Event Websites", "Telegram Bots", "Mini Apps", "Confidential Projects"]
+    },
+    categories: {
+      aiVideo: { label: "AI video & visuals", short: "Video, photo, characters, stories", emoji: "🎬" },
+      aiSong: { label: "AI songs", short: "Personal songs sung by AI", emoji: "🎵" },
+      websites: { label: "Websites & invitations", short: "Landing pages, RSVP, events", emoji: "💌" },
+      bots: { label: "Telegram bots & mini apps", short: "Automation, forms, mini apps", emoji: "🤖" }
     },
     services: {
-      eyebrow: "What I can create",
-      title: "AI production for ads, stories, characters and social content.",
+      eyebrow: "What we create",
+      title: "Creative digital services for emotions, events, brands and automation.",
       items: [
-        ["🎬", "AI Animated Videos", "Short and polished animated videos for brands, creators and personal stories."],
-        ["🧊", "3D Cartoon Stories", "Cinematic 3D cartoon-style animation with a modern animated movie look."],
-        ["🧑‍🚀", "AI Characters", "Unique characters, consistent visual direction and expressive scenes."],
-        ["⚡", "Commercials & Ads", "Bright promo videos, product launches and attention-grabbing ad creatives."],
-        ["🎵", "Music Videos", "Visual mood, rhythm, story scenes and animated worlds for tracks."],
-        ["💞", "Wedding / Love Stories", "Emotional romantic videos, family-friendly animation and keepsake stories."],
-        ["📱", "Social Media Reels", "Vertical clips for TikTok, Instagram, YouTube Shorts and campaigns."],
-        ["🧠", "Storyboards & Prompts", "Prompts, shot lists, scene planning and art direction for production."],
-        ["🎙️", "Voiceover & Sound Design", "Voiceover planning, subtitles, music, sound effects and final polish."],
-        ["🌌", "Visual Concepts", "Creative directions, moodboards and cinematic style systems for your idea."]
+        ["🎬", "AI videos and visual stories", "Cinematic AI clips, characters, ads, love stories, reels and visual concepts."],
+        ["🖼️", "AI photos and creative visuals", "Portraits, character visuals, product concepts, moodboards and social creatives."],
+        ["🎵", "Personal AI songs", "Lyrics, melody direction and AI-sung songs for weddings, birthdays, anniversaries and surprises."],
+        ["💌", "Event invitation websites", "Beautiful wedding, birthday and corporate invitation sites with guest confirmation forms."],
+        ["🚀", "Landing pages", "Simple premium landing pages for services, launches, portfolios and personal brands."],
+        ["📩", "Forms to Telegram", "Guest answers, leads and requests can arrive directly into your Telegram bot."],
+        ["🤖", "Telegram bots", "Order bots, lead bots, FAQ bots, booking flows and automation for different goals."],
+        ["📱", "Telegram mini apps", "Compact interactive mini apps, catalogs, forms, calculators and client portals."],
+        ["🔐", "Confidential projects", "Private ideas, surprise gifts, sensitive materials and custom tasks handled carefully."]
       ]
     },
     packages: {
       eyebrow: "Packages",
-      title: "Clear starting points for your AI video.",
+      title: "Choose a direction and see safe starting prices.",
       select: "Select package",
+      customOption: "Custom quote",
       items: {
-        basic: {
-          name: "Basic",
-          subtitle: "Short AI Clip",
-          features: ["15-30 seconds AI animated video", "1 scene", "1-2 characters", "Basic editing", "Music / sound effects", "Prompt creation", "2 revisions", "Delivery: 2 days"]
-        },
-        standard: {
-          name: "Standard",
-          subtitle: "Animated Story Video",
-          features: ["Up to 90 seconds AI animated video", "Up to 5 scenes", "Up to 4-6 characters", "Voiceover", "Music & sound effects", "Subtitles", "Polished editing", "3 revisions", "Delivery: 5 days"]
-        },
-        premium: {
-          name: "Premium",
-          subtitle: "Full AI Animated Story",
-          features: ["Up to 3 minutes AI animated story", "Up to 10 scenes", "Up to 8-10 characters", "Script adaptation", "Scene planning", "Voiceover", "Music & sound design", "Subtitles", "Final editing", "5 revisions", "Delivery: 7 days"]
-        }
+        videoStarter: { name: "Visual Starter", subtitle: "Short AI clip / visual set", features: ["15-30 sec AI video or small visual pack", "1 concept direction", "1-2 characters or objects", "Basic edit", "Music / AI voiceover optional", "2 minor revisions", "Delivery from 2-3 days"] },
+        videoStory: { name: "Story Production", subtitle: "AI story, ad or reel pack", features: ["Up to 90 sec AI video", "Up to 5 scenes", "Scene plan and prompts", "AI voiceover or subtitles", "Polished edit", "3 minor revisions", "Delivery from 5-7 days"] },
+        videoProduction: { name: "Premium Visual World", subtitle: "Full AI story or campaign", features: ["Up to 3 min AI story or visual campaign", "Up to 10 scenes", "Characters and art direction", "Music, subtitles and sound design", "Final edit", "5 minor revisions", "Delivery from 7-12 days"] },
+        songMini: { name: "Mini Song Gift", subtitle: "Short personal AI song", features: ["Original lyrics for one occasion", "AI vocal performance", "Up to 60-90 seconds", "1 music mood", "Basic audio polish", "2 minor revisions", "Delivery from 2-3 days"] },
+        songFull: { name: "Full AI Song", subtitle: "Complete emotional song", features: ["Full lyrics with story details", "AI vocal and music direction", "Up to 2.5-3 minutes", "Personal names/details included", "Audio polish", "3 minor revisions", "Delivery from 4-6 days"] },
+        songEvent: { name: "Event Song Package", subtitle: "Song plus visual presentation", features: ["Full AI-sung song", "Custom intro or greeting", "Cover image", "Simple lyric video or visual card", "Event-ready file", "4 minor revisions", "Delivery from 5-8 days"] },
+        siteInvite: { name: "Event Invitation Site", subtitle: "Wedding, birthday, corporate event", features: ["One-page invitation website", "Event details and program", "Guest confirmation form", "Telegram request delivery", "Mobile responsive", "2 minor revisions", "Delivery from 4-6 days"] },
+        siteLanding: { name: "Premium Landing", subtitle: "Service, product or personal page", features: ["One-page landing website", "Offer, sections and CTA", "Contact/request form", "Responsive design", "Basic SEO tags", "3 minor revisions", "Delivery from 6-9 days"] },
+        sitePremium: { name: "Multi-section Website", subtitle: "More content and richer UI", features: ["Expanded landing or small website", "Premium animated interface", "Forms and Telegram notifications", "Portfolio/gallery blocks", "Launch support", "4 minor revisions", "Delivery from 10-14 days"] },
+        botStarter: { name: "Request Bot", subtitle: "Simple lead/order bot", features: ["Telegram bot setup", "Basic menu and request flow", "Form answers to your chat", "Clean message formatting", "Basic deployment guidance", "2 minor revisions", "Delivery from 4-6 days"] },
+        botBusiness: { name: "Business Bot", subtitle: "Automation with scenarios", features: ["Multi-step bot logic", "Client questions and branching", "Admin notifications", "Google Sheets or simple storage optional", "Inline buttons", "3 minor revisions", "Delivery from 7-12 days"] },
+        botMiniApp: { name: "Mini App MVP", subtitle: "Interactive Telegram mini app", features: ["Telegram mini app interface", "Forms, catalog, calculator or booking flow", "Bot connection", "Responsive UI", "Launch support", "4 minor revisions", "Delivery from 14-21 days"] }
       }
     },
     addons: {
       eyebrow: "Add-ons",
-      title: "Upgrade the production when your story needs more.",
+      title: "Add only what your selected service actually needs.",
       labels: {
-        extra30: "Extra 30 seconds",
-        extra60: "Extra 60 seconds",
-        character: "Extra character",
-        scene: "Extra scene",
-        script: "Script writing",
-        storyboard: "Storyboard / shot list",
-        voiceover: "Professional voiceover",
-        subtitles: "Subtitles",
-        fourK: "4K delivery",
-        fast: "Fast delivery",
-        rights: "Commercial rights",
-        revision: "Extra revision"
+        extra30: "Extra 30 sec video", extraScene: "Extra video scene", extraCharacter: "Extra character/object", scenePlan: "Detailed scene plan / storyboard", aiVoiceover: "AI voiceover", subtitles: "Subtitles", fourK: "4K delivery", fast: "Fast delivery", minorRevision: "Extra minor revision", sceneRemake: "Scene remake",
+        extraVerse: "Extra verse", instrumental: "Instrumental version", secondVoice: "Additional vocal version", lyricVideo: "Simple lyric video", coverArt: "Cover artwork", greetingIntro: "Personal greeting intro", fastSong: "Fast song delivery", songRevision: "Extra minor song revision",
+        rsvpTelegram: "RSVP form to Telegram", extraSection: "Extra website section", multilang: "Additional language", gallery: "Photo/video gallery", customAnimation: "Custom animation", deployHelp: "Domain/deploy help", privacyPage: "Private access / privacy page", fastSite: "Fast website delivery",
+        extraFlow: "Extra bot scenario", sheets: "Google Sheets integration", adminPanel: "Simple admin panel", payments: "Payment flow setup", reminders: "Reminders/notifications", analytics: "Basic analytics", deployBot: "Bot deployment support", fastBot: "Fast bot delivery"
       }
     },
-    custom: {
-      eyebrow: "Custom Project",
-      title: "Need something unique?",
-      text: "Tell me your idea and I will create a custom AI production plan for you.",
-      button: "Plan custom project"
-    },
+    custom: { eyebrow: "Confidential custom work", title: "Have a private idea, event surprise or unusual business task?", text: "Tell me the goal. I will estimate the scope carefully, protect your materials and suggest the safest production plan.", button: "Discuss custom project" },
     portfolio: {
       eyebrow: "Portfolio",
-      title: "Video preview concepts for future real cases.",
+      title: "Portfolio concepts by service direction.",
       note: "Real works can be added here later.",
-      tag: "Video preview",
+      all: "All",
+      tag: "Concept",
       items: [
-        ["AI Wedding Story", "A tender cinematic story with romantic scenes and custom characters."],
-        ["3D Character Trailer", "A bright character reveal with action beats and a premium trailer rhythm."],
-        ["Product Commercial", "A punchy product spot with glossy visuals and social-first pacing."],
-        ["Cartoon Music Video", "A colorful animated world matched to the mood and rhythm of a track."],
-        ["Social Media Reel", "A fast vertical creative built for hooks, retention and brand recognition."],
-        ["Cinematic Love Story", "A polished emotional short with voiceover, music and visual storytelling."]
+        ["aiVideo", "AI Wedding Story", "A cinematic animated love story with custom characters and music."],
+        ["aiVideo", "Product Visual Reel", "A bright AI promo clip for launches, reels and ads."],
+        ["aiSong", "Birthday AI Song", "A personal song with names, memories and an AI vocal performance."],
+        ["aiSong", "Wedding First Dance Song", "A custom emotional song prepared as a meaningful event gift."],
+        ["websites", "Wedding Invitation Website", "A mobile invitation with RSVP form and answers sent to Telegram."],
+        ["websites", "Premium Service Landing", "A polished landing page with offer, sections, form and launch-ready design."],
+        ["bots", "Lead Request Bot", "A Telegram bot that collects requests and sends structured briefs to the owner."],
+        ["bots", "Mini App Calculator", "A compact Telegram mini app for forms, calculations or service selection."]
       ]
     },
     process: {
       eyebrow: "How it works",
-      title: "A clean process from rough idea to polished final video.",
+      title: "A clear process from emotional idea to finished digital result.",
       steps: [
-        ["You send an idea", "Share your story, goal, references, audience and preferred style."],
-        ["I create concept, prompts and visual direction", "I shape the scenes, characters, tone, prompts and production plan."],
-        ["I generate and edit the video", "The visuals, voiceover, music, subtitles and edit come together."],
-        ["You receive final polished video", "You get the final file ready for publishing, presenting or gifting."]
+        ["You send the idea", "Tell me the occasion, goal, audience, references, deadline and what should happen after launch."],
+        ["We lock scope and price", "I separate minor revisions from major rework, so the project stays fair and predictable."],
+        ["Production begins", "I create visuals, songs, website screens, bot logic or mini app flows depending on the service."],
+        ["You receive the final result", "You get files, links or launch-ready setup with clear next steps."]
       ]
     },
     faq: {
       eyebrow: "FAQ",
-      title: "Answers before we start creating.",
+      title: "Important details before we start.",
       items: [
-        ["What do you need from me to start?", "A short idea, goal, preferred style, references if you have them, deadline and the format you need."],
-        ["Can you create characters from references?", "Yes. References help define the look, mood and details, while the final result remains an original AI-created visual direction."],
-        ["Can you make a video in my language?", "Yes. The project can include voiceover, subtitles and on-screen text in different languages."],
-        ["Is the animation fully custom?", "The concept, prompts, scenes, edit and direction are built for your project. Exact results depend on AI generation and production limits."],
-        ["Can I order a longer video?", "Yes. Longer formats can be planned as a custom project or extended with add-ons."],
-        ["Do you provide commercial rights?", "Commercial usage can be added to the project. We will confirm the exact terms before production."],
-        ["Can you create content for TikTok, Instagram, YouTube?", "Yes. I can create vertical reels, shorts, ad creatives and platform-ready versions."]
+        ["Are projects confidential?", "Yes. Private event details, personal stories, references and business ideas are handled carefully. NDA-style wording can be discussed for sensitive work."],
+        ["What is an AI song?", "It is an original song concept with custom lyrics and an AI vocal performance. It can be a beautiful gift for a wedding, birthday, anniversary, corporate event or surprise."],
+        ["What counts as a minor revision?", "Small text fixes, timing changes, subtitle corrections, small visual/audio adjustments. Rebuilding a scene, changing the concept or remaking most of the project is quoted separately."],
+        ["Do you offer human voiceover?", "Human voiceover is custom quote only. Standard packages use AI voiceover, so pricing and deadlines stay realistic."],
+        ["What are commercial rights?", "Commercial use means the client may use the final delivered result for business, social media, ads or promotion, if their own materials and references do not violate third-party rights."],
+        ["Can invitation websites collect guest answers?", "Yes. RSVP forms can send guest confirmations and comments directly to the client's Telegram bot or chat."],
+        ["Can you build any Telegram bot?", "I can build simple and medium-complexity bots, automations and mini apps. Complex systems, payments, databases and admin panels are estimated separately."]
       ]
     },
     form: {
-      name: "Name",
-      email: "Email",
-      messenger: "Telegram / WhatsApp",
-      projectLanguage: "Language of project",
-      projectType: "Project type",
-      package: "Select package",
-      addons: "Add-ons",
-      idea: "Project idea / description",
-      references: "References link",
-      deadline: "Deadline",
-      budget: "Budget",
-      total: "Estimated total",
-      confirm: "I understand that final price may change after discussing the project",
-      submit: "Send request",
-      required: "Please fill in all required fields and confirm the price note.",
-      sending: "Sending request...",
-      tokenMissing: "Telegram Bot Token or Chat ID is not filled in. Add them in script.js before sending requests.",
-      error: "Request was not sent. Please check the Telegram settings and try again.",
-      networkError: "Request was not sent. Browser could not reach Telegram API. Check internet, token and hosting restrictions.",
-      success: "Request sent successfully. Thank you!",
-      projectTypes: ["AI animated video", "3D cartoon story", "Commercial / ad", "Social media content", "Music video", "Wedding / love story", "Custom project"],
-      packages: { basic: "Basic — Short AI Clip", standard: "Standard — Animated Story Video", premium: "Premium — Full AI Animated Story", custom: "Custom project" }
+      name: "Name", email: "Email", messenger: "Telegram / WhatsApp", projectLanguage: "Project language", service: "Service direction", package: "Select package", addons: "Add-ons", idea: "Project idea / description", occasion: "Occasion / business goal", references: "References link or notes", deadline: "Deadline", budget: "Budget", total: "Estimated total", confirm: "I understand that final price may change after discussing the project scope", submit: "Send request",
+      required: "Please fill in all required fields and confirm the price note.", sending: "Sending request...", tokenMissing: "Telegram Bot Token or Chat ID is not filled in. Add them in script.js before sending requests.", error: "Request was not sent. Please check the Telegram settings and try again.", networkError: "Request was not sent. Browser could not reach Telegram API. Check internet, token and hosting restrictions.", success: "Request sent successfully. Thank you!"
     },
-    footer: {
-      tagline: "Cinematic AI animation from idea to final video.",
-      services: "Services",
-      packages: "Packages",
-      contact: "Contact",
-      rights: "All rights reserved."
-    }
+    bot: { title: "New Mult emotion request", next: "Next step: reply to the client, confirm scope, deadline and materials before production." },
+    footer: { tagline: "Creative AI, websites and Telegram tools for emotional digital projects.", services: "Services", packages: "Packages", packageLink: "Video / Songs / Websites / Bots", contact: "Contact", rights: "All rights reserved." }
   },
   ru: {
     nav: { home: "Главная", services: "Услуги", packages: "Пакеты", portfolio: "Портфолио", process: "Процесс", faq: "FAQ", order: "Заявка", cta: "Заказать" },
     hero: {
-      eyebrow: "От идеи до финального видео",
-      title: "Cinematic AI-видео, 3D-анимация, персонажи и визуальные миры под ключ.",
-      text: "Создаю cinematic AI-видео, 3D-анимацию, персонажей, рекламные ролики и визуальные истории под ключ.",
-      choose: "Выбрать пакет",
+      eyebrow: "Creative AI studio для эмоциональных digital-проектов",
+      title: "AI-эмоции, песни, сайты и умные Telegram-инструменты для важных моментов.",
+      text: "Mult emotion создает AI-видео, персональные песни, сайты-приглашения, лендинги, Telegram-ботов и mini apps от идеи до готового запуска.",
+      choose: "Выбрать услугу",
       custom: "Индивидуальный проект",
       services: "Смотреть услуги",
-      visualTitle: "AI Animation Engine",
-      capabilities: ["AI-анимация", "3D-персонажи", "Озвучка", "Сторителлинг", "Рекламные видео", "Контент для соцсетей"]
+      visualTitle: "Creative Production Engine",
+      capabilities: ["AI-видео", "AI-песни", "Сайты-приглашения", "Telegram-боты", "Mini Apps", "Конфиденциально"]
+    },
+    categories: {
+      aiVideo: { label: "AI-видео и визуалы", short: "Видео, фото, персонажи, истории", emoji: "🎬" },
+      aiSong: { label: "AI-песни", short: "Персональные песни голосом ИИ", emoji: "🎵" },
+      websites: { label: "Сайты и приглашения", short: "Лендинги, RSVP, мероприятия", emoji: "💌" },
+      bots: { label: "Telegram-боты и mini apps", short: "Автоматизация, формы, mini apps", emoji: "🤖" }
     },
     services: {
-      eyebrow: "Что я могу создать",
-      title: "AI-продакшн для рекламы, историй, персонажей и соцсетей.",
+      eyebrow: "Что мы создаем",
+      title: "Креативные digital-услуги для эмоций, событий, брендов и автоматизации.",
       items: [
-        ["🎬", "AI-анимационные видео", "Короткие и отполированные анимационные ролики для брендов, авторов и личных историй."],
-        ["🧊", "3D cartoon stories", "Cinematic 3D cartoon-style animation с современным видом анимационного кино."],
-        ["🧑‍🚀", "AI-персонажи", "Уникальные персонажи, единое визуальное направление и выразительные сцены."],
-        ["⚡", "Реклама и креативы", "Яркие промо, запуски продуктов и ролики, которые цепляют внимание."],
-        ["🎵", "Музыкальные видео", "Визуальный стиль, ритм, сюжетные сцены и анимационные миры для треков."],
-        ["💞", "Wedding / Love Stories", "Эмоциональные романтические видео и family-friendly 3D animated style."],
-        ["📱", "Reels для соцсетей", "Вертикальные клипы для TikTok, Instagram, YouTube Shorts и кампаний."],
-        ["🧠", "Сториборды и промты", "Промты, shot list, план сцен и арт-дирекшн для продакшна."],
-        ["🎙️", "Озвучка и звук", "План озвучки, субтитры, музыка, эффекты и финальная полировка."],
-        ["🌌", "Визуальные концепты", "Креативные направления, мудборды и cinematic style system под вашу идею."]
+        ["🎬", "AI-видео и визуальные истории", "Cinematic AI-ролики, персонажи, реклама, love stories, reels и визуальные концепты."],
+        ["🖼️", "AI-фото и креативные визуалы", "Портреты, персонажи, продуктовые концепты, moodboards и social-креативы."],
+        ["🎵", "Персональные AI-песни", "Текст, музыкальное направление и песня, которую споет ИИ для свадьбы, дня рождения, годовщины или сюрприза."],
+        ["💌", "Сайты-приглашения", "Красивые сайты для свадеб, дней рождения и корпоративов с анкетой подтверждения гостей."],
+        ["🚀", "Лендинги", "Простые премиальные лендинги для услуг, запусков, портфолио и личных брендов."],
+        ["📩", "Формы в Telegram", "Ответы гостей, заявки и лиды могут приходить прямо в Telegram-бот клиента."],
+        ["🤖", "Telegram-боты", "Боты заявок, FAQ-боты, записи, меню, сценарии и автоматизация под разные цели."],
+        ["📱", "Telegram mini apps", "Компактные mini apps: каталоги, формы, калькуляторы и клиентские кабинеты."],
+        ["🔐", "Конфиденциальные проекты", "Личные идеи, сюрпризы, чувствительные материалы и нестандартные задачи обрабатываются бережно."]
       ]
     },
     packages: {
       eyebrow: "Пакеты",
-      title: "Понятные стартовые варианты для вашего AI-видео.",
+      title: "Выберите направление и посмотрите безопасные стартовые цены.",
       select: "Выбрать пакет",
+      customOption: "Индивидуальная оценка",
       items: {
-        basic: { name: "Basic", subtitle: "Short AI Clip", features: ["15-30 секунд AI-анимации", "1 сцена", "1-2 персонажа", "Базовый монтаж", "Музыка / звуковые эффекты", "Создание промтов", "2 правки", "Срок: 2 дня"] },
-        standard: { name: "Standard", subtitle: "Animated Story Video", features: ["До 90 секунд AI-анимации", "До 5 сцен", "До 4-6 персонажей", "Озвучка", "Музыка и звуковые эффекты", "Субтитры", "Полированный монтаж", "3 правки", "Срок: 5 дней"] },
-        premium: { name: "Premium", subtitle: "Full AI Animated Story", features: ["До 3 минут AI animated story", "До 10 сцен", "До 8-10 персонажей", "Адаптация сценария", "Планирование сцен", "Озвучка", "Музыка и саунд-дизайн", "Субтитры", "Финальный монтаж", "5 правок", "Срок: 7 дней"] }
+        videoStarter: { name: "Visual Starter", subtitle: "Короткий AI-клип / набор визуалов", features: ["15-30 секунд AI-видео или небольшой visual pack", "1 креативное направление", "1-2 персонажа или объекта", "Базовый монтаж", "Музыка / AI-озвучка опционально", "2 маленькие правки", "Срок от 2-3 дней"] },
+        videoStory: { name: "Story Production", subtitle: "AI-история, реклама или reel pack", features: ["До 90 секунд AI-видео", "До 5 сцен", "План сцен и промты", "AI-озвучка или субтитры", "Полированный монтаж", "3 маленькие правки", "Срок от 5-7 дней"] },
+        videoProduction: { name: "Premium Visual World", subtitle: "Полная AI-история или кампания", features: ["До 3 минут AI-истории или visual campaign", "До 10 сцен", "Персонажи и арт-дирекшн", "Музыка, субтитры и sound design", "Финальный монтаж", "5 маленьких правок", "Срок от 7-12 дней"] },
+        songMini: { name: "Mini Song Gift", subtitle: "Короткая персональная AI-песня", features: ["Оригинальный текст под событие", "AI-вокал", "До 60-90 секунд", "1 музыкальное настроение", "Базовая аудио-полировка", "2 маленькие правки", "Срок от 2-3 дней"] },
+        songFull: { name: "Full AI Song", subtitle: "Полная эмоциональная песня", features: ["Полный текст с личными деталями", "AI-вокал и музыкальное направление", "До 2.5-3 минут", "Имена/истории можно включить", "Аудио-полировка", "3 маленькие правки", "Срок от 4-6 дней"] },
+        songEvent: { name: "Event Song Package", subtitle: "Песня плюс визуальная подача", features: ["Полная AI-песня", "Кастомное интро или поздравление", "Обложка", "Простой lyric video или visual card", "Файл для мероприятия", "4 маленькие правки", "Срок от 5-8 дней"] },
+        siteInvite: { name: "Event Invitation Site", subtitle: "Свадьба, день рождения, корпоратив", features: ["Одностраничный сайт-приглашение", "Детали и программа события", "Анкета подтверждения гостей", "Ответы в Telegram", "Адаптив под телефон", "2 маленькие правки", "Срок от 4-6 дней"] },
+        siteLanding: { name: "Premium Landing", subtitle: "Услуга, продукт или личная страница", features: ["Одностраничный лендинг", "Оффер, секции и CTA", "Форма заявки", "Адаптивный дизайн", "Базовые SEO-теги", "3 маленькие правки", "Срок от 6-9 дней"] },
+        sitePremium: { name: "Multi-section Website", subtitle: "Больше контента и richer UI", features: ["Расширенный лендинг или небольшой сайт", "Премиальный анимированный интерфейс", "Формы и Telegram-уведомления", "Портфолио/галерея", "Помощь с запуском", "4 маленькие правки", "Срок от 10-14 дней"] },
+        botStarter: { name: "Request Bot", subtitle: "Простой бот заявок", features: ["Настройка Telegram-бота", "Базовое меню и сценарий заявки", "Ответы формы в ваш чат", "Красивое форматирование сообщений", "Базовая помощь с деплоем", "2 маленькие правки", "Срок от 4-6 дней"] },
+        botBusiness: { name: "Business Bot", subtitle: "Автоматизация со сценариями", features: ["Многошаговая логика", "Вопросы и ветвления", "Уведомления администратору", "Google Sheets или простое хранение опционально", "Inline-кнопки", "3 маленькие правки", "Срок от 7-12 дней"] },
+        botMiniApp: { name: "Mini App MVP", subtitle: "Интерактивный Telegram mini app", features: ["Интерфейс Telegram mini app", "Формы, каталог, калькулятор или запись", "Связка с ботом", "Адаптивный UI", "Помощь с запуском", "4 маленькие правки", "Срок от 14-21 дней"] }
       }
     },
     addons: {
       eyebrow: "Дополнительные услуги",
-      title: "Усильте продакшн, если истории нужно больше.",
+      title: "Добавляйте только то, что действительно нужно выбранной услуге.",
       labels: {
-        extra30: "Дополнительные 30 секунд", extra60: "Дополнительные 60 секунд", character: "Дополнительный персонаж", scene: "Дополнительная сцена", script: "Написание сценария", storyboard: "Сториборд / shot list", voiceover: "Профессиональная озвучка", subtitles: "Субтитры", fourK: "4K-версия", fast: "Срочная доставка", rights: "Коммерческие права", revision: "Дополнительная правка"
+        extra30: "Дополнительные 30 секунд видео", extraScene: "Дополнительная сцена", extraCharacter: "Дополнительный персонаж/объект", scenePlan: "Детальный план сцен / сториборд", aiVoiceover: "AI-озвучка", subtitles: "Субтитры", fourK: "4K-версия", fast: "Срочная доставка", minorRevision: "Дополнительная маленькая правка", sceneRemake: "Переделка сцены",
+        extraVerse: "Дополнительный куплет", instrumental: "Инструментальная версия", secondVoice: "Дополнительная вокальная версия", lyricVideo: "Простой lyric video", coverArt: "Обложка", greetingIntro: "Личное поздравительное интро", fastSong: "Срочная песня", songRevision: "Дополнительная маленькая правка песни",
+        rsvpTelegram: "Анкета RSVP в Telegram", extraSection: "Дополнительная секция сайта", multilang: "Дополнительный язык", gallery: "Фото/видео галерея", customAnimation: "Кастомная анимация", deployHelp: "Помощь с доменом/деплоем", privacyPage: "Приватный доступ / privacy page", fastSite: "Срочный сайт",
+        extraFlow: "Дополнительный сценарий бота", sheets: "Интеграция с Google Sheets", adminPanel: "Простая админ-панель", payments: "Настройка оплаты", reminders: "Напоминания/уведомления", analytics: "Базовая аналитика", deployBot: "Помощь с деплоем бота", fastBot: "Срочный бот"
       }
     },
-    custom: { eyebrow: "Индивидуальный проект", title: "Нужно что-то уникальное?", text: "Расскажите идею, и я создам индивидуальный план AI-продакшна под ваш проект.", button: "Обсудить проект" },
+    custom: { eyebrow: "Конфиденциальные custom-проекты", title: "Есть личная идея, сюрприз или необычная бизнес-задача?", text: "Опишите цель. Я аккуратно оценю объем, защищу материалы и предложу безопасный production plan.", button: "Обсудить custom-проект" },
     portfolio: {
-      eyebrow: "Портфолио", title: "Концепты превью для будущих реальных работ.", note: "Реальные работы можно добавить сюда позже.", tag: "Video preview",
+      eyebrow: "Портфолио", title: "Концепты портфолио по направлениям.", note: "Реальные работы можно добавить сюда позже.", all: "Все", tag: "Концепт",
       items: [
-        ["AI Wedding Story", "Нежная cinematic-история с романтичными сценами и кастомными персонажами."],
-        ["3D Character Trailer", "Яркое раскрытие персонажа с динамикой трейлера и премиальным ритмом."],
-        ["Product Commercial", "Энергичный продуктовый ролик с глянцевыми визуалами для соцсетей."],
-        ["Cartoon Music Video", "Цветной анимационный мир под настроение и ритм трека."],
-        ["Social Media Reel", "Быстрый вертикальный креатив для hook, retention и узнаваемости."],
-        ["Cinematic Love Story", "Эмоциональный короткий фильм с озвучкой, музыкой и визуальным сторителлингом."]
+        ["aiVideo", "AI Wedding Story", "Cinematic love story с персонажами, музыкой и нежной визуальной подачей."],
+        ["aiVideo", "Product Visual Reel", "Яркий AI-промо ролик для запуска, reels и рекламы."],
+        ["aiSong", "Birthday AI Song", "Персональная песня с именами, воспоминаниями и AI-вокалом."],
+        ["aiSong", "Wedding First Dance Song", "Эмоциональная песня-сюрприз для свадебного момента."],
+        ["websites", "Wedding Invitation Website", "Мобильное приглашение с RSVP-формой и ответами в Telegram."],
+        ["websites", "Premium Service Landing", "Премиальный лендинг с оффером, секциями, формой и готовым дизайном."],
+        ["bots", "Lead Request Bot", "Telegram-бот, который собирает заявки и отправляет структурированный бриф владельцу."],
+        ["bots", "Mini App Calculator", "Компактный Telegram mini app для форм, расчетов или выбора услуги."]
       ]
     },
     process: {
-      eyebrow: "Как это работает", title: "Чистый процесс от сырой идеи до отполированного видео.",
+      eyebrow: "Как это работает",
+      title: "Понятный процесс от эмоциональной идеи до готового digital-результата.",
       steps: [
-        ["Вы отправляете идею", "Расскажите историю, цель, референсы, аудиторию и желаемый стиль."],
-        ["Я создаю концепт, промты и визуальное направление", "Формирую сцены, персонажей, тон, промты и production plan."],
-        ["Я генерирую и монтирую видео", "Визуалы, озвучка, музыка, субтитры и монтаж собираются в цельный ролик."],
-        ["Вы получаете финальное видео", "Готовый файл для публикации, презентации, рекламы или подарка."]
+        ["Вы отправляете идею", "Опишите событие, цель, аудиторию, референсы, дедлайн и что должно произойти после запуска."],
+        ["Фиксируем объем и цену", "Я отделяю маленькие правки от крупных переделок, чтобы проект был честным и предсказуемым."],
+        ["Начинается производство", "Создаю визуалы, песню, экраны сайта, логику бота или flow mini app в зависимости от услуги."],
+        ["Вы получаете результат", "Файлы, ссылку или launch-ready setup с понятными следующими шагами."]
       ]
     },
     faq: {
-      eyebrow: "FAQ", title: "Ответы перед стартом работы.",
+      eyebrow: "FAQ", title: "Важные детали перед стартом.",
       items: [
-        ["Что нужно от меня для старта?", "Короткая идея, цель, желаемый стиль, референсы, если есть, дедлайн и нужный формат."],
-        ["Можно создать персонажей по референсам?", "Да. Референсы помогают определить образ, настроение и детали, а финальный результат остается оригинальным AI-визуалом."],
-        ["Можно сделать видео на моем языке?", "Да. Проект может включать озвучку, субтитры и текст на экране на разных языках."],
-        ["Анимация полностью кастомная?", "Концепт, промты, сцены, монтаж и направление создаются под проект. Точный результат зависит от возможностей AI-генерации и продакшна."],
-        ["Можно заказать более длинное видео?", "Да. Длинные форматы можно оформить как custom project или расширить с помощью add-ons."],
-        ["Вы предоставляете коммерческие права?", "Коммерческое использование можно добавить к проекту. Точные условия подтверждаются перед производством."],
-        ["Можно создать контент для TikTok, Instagram, YouTube?", "Да. Я могу создать вертикальные reels, shorts, рекламные креативы и версии под платформы."]
+        ["Проекты конфиденциальны?", "Да. Личные истории, материалы, референсы и бизнес-идеи обрабатываются бережно. Для чувствительных проектов можно согласовать NDA-style формулировку."],
+        ["Что такое AI-песня?", "Это оригинальная песня с персональным текстом и AI-вокалом. Такой формат подходит как подарок на свадьбу, день рождения, годовщину, корпоратив или сюрприз."],
+        ["Что считается маленькой правкой?", "Исправление текста, тайминга, субтитров, маленькие визуальные/аудио корректировки. Переделка сцены, смена концепта или большая часть проекта оцениваются отдельно."],
+        ["Вы делаете живую профессиональную озвучку?", "Живая озвучка только по индивидуальной оценке. В стандартных пакетах используется AI-озвучка, чтобы цена и сроки оставались реалистичными."],
+        ["Что такое коммерческое использование?", "Клиент может использовать финальный результат для бизнеса, соцсетей, рекламы или продвижения, если его материалы и референсы не нарушают права третьих лиц."],
+        ["Сайт-приглашение может собирать ответы гостей?", "Да. RSVP-анкета может отправлять подтверждения гостей и комментарии прямо в Telegram-бот или чат клиента."],
+        ["Можно сделать любого Telegram-бота?", "Можно сделать простые и средние по сложности боты, автоматизации и mini apps. Сложные системы, оплаты, базы данных и админки оцениваются отдельно."]
       ]
     },
     form: {
-      name: "Имя", email: "Email", messenger: "Telegram / WhatsApp", projectLanguage: "Язык проекта", projectType: "Тип проекта", package: "Выберите пакет", addons: "Дополнительные услуги", idea: "Идея / описание проекта", references: "Ссылка на референсы", deadline: "Дедлайн", budget: "Бюджет", total: "Предварительная сумма", confirm: "Я понимаю, что финальная цена может измениться после обсуждения проекта", submit: "Отправить заявку",
-      required: "Пожалуйста, заполните обязательные поля и подтвердите примечание о цене.", sending: "Отправляю заявку...", tokenMissing: "Telegram Bot Token или Chat ID не заполнены. Добавьте их в script.js перед отправкой заявок.", error: "Заявка не отправилась. Проверьте настройки Telegram и попробуйте снова.", networkError: "Заявка не отправилась. Браузер не смог подключиться к Telegram API. Проверьте интернет, токен и ограничения хостинга.", success: "Заявка успешно отправлена. Спасибо!",
-      projectTypes: ["AI-анимационное видео", "3D cartoon story", "Реклама / креатив", "Контент для соцсетей", "Музыкальное видео", "Wedding / love story", "Индивидуальный проект"],
-      packages: { basic: "Basic — Short AI Clip", standard: "Standard — Animated Story Video", premium: "Premium — Full AI Animated Story", custom: "Индивидуальный проект" }
+      name: "Имя", email: "Email", messenger: "Telegram / WhatsApp", projectLanguage: "Язык проекта", service: "Направление услуги", package: "Выберите пакет", addons: "Дополнительные услуги", idea: "Идея / описание проекта", occasion: "Событие / бизнес-цель", references: "Ссылка на референсы или заметки", deadline: "Дедлайн", budget: "Бюджет", total: "Предварительная сумма", confirm: "Я понимаю, что финальная цена может измениться после обсуждения объема проекта", submit: "Отправить заявку",
+      required: "Пожалуйста, заполните обязательные поля и подтвердите примечание о цене.", sending: "Отправляю заявку...", tokenMissing: "Telegram Bot Token или Chat ID не заполнены. Добавьте их в script.js перед отправкой заявок.", error: "Заявка не отправилась. Проверьте настройки Telegram и попробуйте снова.", networkError: "Заявка не отправилась. Браузер не смог подключиться к Telegram API. Проверьте интернет, токен и ограничения хостинга.", success: "Заявка успешно отправлена. Спасибо!"
     },
-    footer: { tagline: "Cinematic AI-анимация от идеи до финального видео.", services: "Услуги", packages: "Пакеты", contact: "Контакты", rights: "Все права защищены." }
+    bot: { title: "Новая заявка Mult emotion", next: "Следующий шаг: ответить клиенту, подтвердить объем, дедлайн и материалы до старта." },
+    footer: { tagline: "Creative AI, сайты и Telegram-инструменты для эмоциональных digital-проектов.", services: "Услуги", packages: "Пакеты", packageLink: "Видео / Песни / Сайты / Боты", contact: "Контакты", rights: "Все права защищены." }
   },
   ua: {
     nav: { home: "Головна", services: "Послуги", packages: "Пакети", portfolio: "Портфоліо", process: "Процес", faq: "FAQ", order: "Заявка", cta: "Замовити" },
     hero: {
-      eyebrow: "Від ідеї до фінального відео",
-      title: "Cinematic AI-відео, 3D-анімація, персонажі та візуальні світи під ключ.",
-      text: "Створюю cinematic AI-відео, 3D-анімацію, персонажів, рекламні ролики та візуальні історії під ключ.",
-      choose: "Обрати пакет",
+      eyebrow: "Creative AI studio для емоційних digital-проєктів",
+      title: "AI-емоції, пісні, сайти та розумні Telegram-інструменти для важливих моментів.",
+      text: "Mult emotion створює AI-відео, персональні пісні, сайти-запрошення, лендинги, Telegram-ботів і mini apps від ідеї до готового запуску.",
+      choose: "Обрати послугу",
       custom: "Індивідуальний проєкт",
       services: "Дивитися послуги",
-      visualTitle: "AI Animation Engine",
-      capabilities: ["AI-анімація", "3D-персонажі", "Озвучка", "Сторітелінг", "Рекламні відео", "Контент для соцмереж"]
+      visualTitle: "Creative Production Engine",
+      capabilities: ["AI-відео", "AI-пісні", "Сайти-запрошення", "Telegram-боти", "Mini Apps", "Конфіденційно"]
+    },
+    categories: {
+      aiVideo: { label: "AI-відео та візуали", short: "Відео, фото, персонажі, історії", emoji: "🎬" },
+      aiSong: { label: "AI-пісні", short: "Персональні пісні голосом AI", emoji: "🎵" },
+      websites: { label: "Сайти та запрошення", short: "Лендинги, RSVP, події", emoji: "💌" },
+      bots: { label: "Telegram-боти та mini apps", short: "Автоматизація, форми, mini apps", emoji: "🤖" }
     },
     services: {
-      eyebrow: "Що я можу створити",
-      title: "AI-продакшн для реклами, історій, персонажів і соцмереж.",
+      eyebrow: "Що ми створюємо",
+      title: "Креативні digital-послуги для емоцій, подій, брендів та автоматизації.",
       items: [
-        ["🎬", "AI-анімаційні відео", "Короткі й відполіровані анімаційні ролики для брендів, авторів та особистих історій."],
-        ["🧊", "3D cartoon stories", "Cinematic 3D cartoon-style animation із сучасним виглядом анімаційного кіно."],
-        ["🧑‍🚀", "AI-персонажі", "Унікальні персонажі, єдиний візуальний напрям і виразні сцени."],
-        ["⚡", "Реклама та креативи", "Яскраві промо, запуски продуктів і ролики, що привертають увагу."],
-        ["🎵", "Музичні відео", "Візуальний стиль, ритм, сюжетні сцени й анімаційні світи для треків."],
-        ["💞", "Wedding / Love Stories", "Емоційні романтичні відео та family-friendly 3D animated style."],
-        ["📱", "Reels для соцмереж", "Вертикальні кліпи для TikTok, Instagram, YouTube Shorts і кампаній."],
-        ["🧠", "Сторіборди та промти", "Промти, shot list, план сцен і артдирекшн для продакшну."],
-        ["🎙️", "Озвучка та звук", "План озвучки, субтитри, музика, ефекти й фінальне полірування."],
-        ["🌌", "Візуальні концепти", "Креативні напрями, мудборди та cinematic style system під вашу ідею."]
+        ["🎬", "AI-відео та візуальні історії", "Cinematic AI-ролики, персонажі, реклама, love stories, reels і візуальні концепти."],
+        ["🖼️", "AI-фото та креативні візуали", "Портрети, персонажі, продуктові концепти, moodboards і social-креативи."],
+        ["🎵", "Персональні AI-пісні", "Текст, музичний напрям і пісня, яку заспіває AI для весілля, дня народження, річниці чи сюрпризу."],
+        ["💌", "Сайти-запрошення", "Красиві сайти для весіль, днів народження та корпоративів з анкетою підтвердження гостей."],
+        ["🚀", "Лендинги", "Прості преміальні лендинги для послуг, запусків, портфоліо та персональних брендів."],
+        ["📩", "Форми в Telegram", "Відповіді гостей, заявки та ліди можуть приходити прямо в Telegram-бот клієнта."],
+        ["🤖", "Telegram-боти", "Боти заявок, FAQ-боти, записи, меню, сценарії та автоматизація під різні цілі."],
+        ["📱", "Telegram mini apps", "Компактні mini apps: каталоги, форми, калькулятори та клієнтські кабінети."],
+        ["🔐", "Конфіденційні проєкти", "Особисті ідеї, сюрпризи, чутливі матеріали та нестандартні задачі обробляються уважно."]
       ]
     },
     packages: {
-      eyebrow: "Пакети",
-      title: "Зрозумілі стартові варіанти для вашого AI-відео.",
-      select: "Обрати пакет",
+      eyebrow: "Пакети", title: "Оберіть напрям і подивіться безпечні стартові ціни.", select: "Обрати пакет", customOption: "Індивідуальна оцінка",
       items: {
-        basic: { name: "Basic", subtitle: "Short AI Clip", features: ["15-30 секунд AI-анімації", "1 сцена", "1-2 персонажі", "Базовий монтаж", "Музика / звукові ефекти", "Створення промтів", "2 правки", "Термін: 2 дні"] },
-        standard: { name: "Standard", subtitle: "Animated Story Video", features: ["До 90 секунд AI-анімації", "До 5 сцен", "До 4-6 персонажів", "Озвучка", "Музика та звукові ефекти", "Субтитри", "Відполірований монтаж", "3 правки", "Термін: 5 днів"] },
-        premium: { name: "Premium", subtitle: "Full AI Animated Story", features: ["До 3 хвилин AI animated story", "До 10 сцен", "До 8-10 персонажів", "Адаптація сценарію", "Планування сцен", "Озвучка", "Музика та саунд-дизайн", "Субтитри", "Фінальний монтаж", "5 правок", "Термін: 7 днів"] }
+        videoStarter: { name: "Visual Starter", subtitle: "Короткий AI-кліп / набір візуалів", features: ["15-30 секунд AI-відео або невеликий visual pack", "1 креативний напрям", "1-2 персонажі або об'єкти", "Базовий монтаж", "Музика / AI-озвучка опційно", "2 маленькі правки", "Термін від 2-3 днів"] },
+        videoStory: { name: "Story Production", subtitle: "AI-історія, реклама або reel pack", features: ["До 90 секунд AI-відео", "До 5 сцен", "План сцен і промти", "AI-озвучка або субтитри", "Відполірований монтаж", "3 маленькі правки", "Термін від 5-7 днів"] },
+        videoProduction: { name: "Premium Visual World", subtitle: "Повна AI-історія або кампанія", features: ["До 3 хвилин AI-історії або visual campaign", "До 10 сцен", "Персонажі та артдирекшн", "Музика, субтитри та sound design", "Фінальний монтаж", "5 маленьких правок", "Термін від 7-12 днів"] },
+        songMini: { name: "Mini Song Gift", subtitle: "Коротка персональна AI-пісня", features: ["Оригінальний текст під подію", "AI-вокал", "До 60-90 секунд", "1 музичний настрій", "Базове аудіо-полірування", "2 маленькі правки", "Термін від 2-3 днів"] },
+        songFull: { name: "Full AI Song", subtitle: "Повна емоційна пісня", features: ["Повний текст з особистими деталями", "AI-вокал і музичний напрям", "До 2.5-3 хвилин", "Імена/історії можна включити", "Аудіо-полірування", "3 маленькі правки", "Термін від 4-6 днів"] },
+        songEvent: { name: "Event Song Package", subtitle: "Пісня плюс візуальна подача", features: ["Повна AI-пісня", "Кастомне інтро або привітання", "Обкладинка", "Простий lyric video або visual card", "Файл для події", "4 маленькі правки", "Термін від 5-8 днів"] },
+        siteInvite: { name: "Event Invitation Site", subtitle: "Весілля, день народження, корпоратив", features: ["Односторінковий сайт-запрошення", "Деталі та програма події", "Анкета підтвердження гостей", "Відповіді в Telegram", "Адаптив під телефон", "2 маленькі правки", "Термін від 4-6 днів"] },
+        siteLanding: { name: "Premium Landing", subtitle: "Послуга, продукт або персональна сторінка", features: ["Односторінковий лендинг", "Офер, секції та CTA", "Форма заявки", "Адаптивний дизайн", "Базові SEO-теги", "3 маленькі правки", "Термін від 6-9 днів"] },
+        sitePremium: { name: "Multi-section Website", subtitle: "Більше контенту та richer UI", features: ["Розширений лендинг або невеликий сайт", "Преміальний анімований інтерфейс", "Форми та Telegram-сповіщення", "Портфоліо/галерея", "Допомога із запуском", "4 маленькі правки", "Термін від 10-14 днів"] },
+        botStarter: { name: "Request Bot", subtitle: "Простий бот заявок", features: ["Налаштування Telegram-бота", "Базове меню та сценарій заявки", "Відповіді форми у ваш чат", "Красиве форматування повідомлень", "Базова допомога з деплоєм", "2 маленькі правки", "Термін від 4-6 днів"] },
+        botBusiness: { name: "Business Bot", subtitle: "Автоматизація зі сценаріями", features: ["Багатокрокова логіка", "Питання та розгалуження", "Сповіщення адміністратору", "Google Sheets або просте зберігання опційно", "Inline-кнопки", "3 маленькі правки", "Термін від 7-12 днів"] },
+        botMiniApp: { name: "Mini App MVP", subtitle: "Інтерактивний Telegram mini app", features: ["Інтерфейс Telegram mini app", "Форми, каталог, калькулятор або запис", "Зв'язка з ботом", "Адаптивний UI", "Допомога із запуском", "4 маленькі правки", "Термін від 14-21 днів"] }
       }
     },
     addons: {
-      eyebrow: "Додаткові послуги",
-      title: "Підсиліть продакшн, якщо історії потрібно більше.",
+      eyebrow: "Додаткові послуги", title: "Додавайте лише те, що справді потрібно обраній послузі.",
       labels: {
-        extra30: "Додаткові 30 секунд", extra60: "Додаткові 60 секунд", character: "Додатковий персонаж", scene: "Додаткова сцена", script: "Написання сценарію", storyboard: "Сторіборд / shot list", voiceover: "Професійна озвучка", subtitles: "Субтитри", fourK: "4K-версія", fast: "Швидка доставка", rights: "Комерційні права", revision: "Додаткова правка"
+        extra30: "Додаткові 30 секунд відео", extraScene: "Додаткова сцена", extraCharacter: "Додатковий персонаж/об'єкт", scenePlan: "Детальний план сцен / сторіборд", aiVoiceover: "AI-озвучка", subtitles: "Субтитри", fourK: "4K-версія", fast: "Швидка доставка", minorRevision: "Додаткова маленька правка", sceneRemake: "Переробка сцени",
+        extraVerse: "Додатковий куплет", instrumental: "Інструментальна версія", secondVoice: "Додаткова вокальна версія", lyricVideo: "Простий lyric video", coverArt: "Обкладинка", greetingIntro: "Особисте привітальне інтро", fastSong: "Термінова пісня", songRevision: "Додаткова маленька правка пісні",
+        rsvpTelegram: "Анкета RSVP в Telegram", extraSection: "Додаткова секція сайту", multilang: "Додаткова мова", gallery: "Фото/відео галерея", customAnimation: "Кастомна анімація", deployHelp: "Допомога з доменом/деплоєм", privacyPage: "Приватний доступ / privacy page", fastSite: "Терміновий сайт",
+        extraFlow: "Додатковий сценарій бота", sheets: "Інтеграція з Google Sheets", adminPanel: "Проста адмін-панель", payments: "Налаштування оплати", reminders: "Нагадування/сповіщення", analytics: "Базова аналітика", deployBot: "Допомога з деплоєм бота", fastBot: "Терміновий бот"
       }
     },
-    custom: { eyebrow: "Індивідуальний проєкт", title: "Потрібно щось унікальне?", text: "Розкажіть ідею, і я створю індивідуальний AI production plan для вашого проєкту.", button: "Обговорити проєкт" },
+    custom: { eyebrow: "Конфіденційні custom-проєкти", title: "Є особиста ідея, сюрприз або незвична бізнес-задача?", text: "Опишіть ціль. Я акуратно оціню обсяг, захищу матеріали та запропоную безпечний production plan.", button: "Обговорити custom-проєкт" },
     portfolio: {
-      eyebrow: "Портфоліо", title: "Концепти превʼю для майбутніх реальних робіт.", note: "Реальні роботи можна додати сюди пізніше.", tag: "Video preview",
+      eyebrow: "Портфоліо", title: "Концепти портфоліо за напрямами.", note: "Реальні роботи можна додати сюди пізніше.", all: "Усі", tag: "Концепт",
       items: [
-        ["AI Wedding Story", "Ніжна cinematic-історія з романтичними сценами та кастомними персонажами."],
-        ["3D Character Trailer", "Яскраве представлення персонажа з динамікою трейлера та преміальним ритмом."],
-        ["Product Commercial", "Енергійний продуктовий ролик із глянцевими візуалами для соцмереж."],
-        ["Cartoon Music Video", "Кольоровий анімаційний світ під настрій і ритм треку."],
-        ["Social Media Reel", "Швидкий вертикальний креатив для hook, retention і впізнаваності."],
-        ["Cinematic Love Story", "Емоційний короткий фільм з озвучкою, музикою та візуальним сторітелінгом."]
+        ["aiVideo", "AI Wedding Story", "Cinematic love story з персонажами, музикою та ніжною візуальною подачею."],
+        ["aiVideo", "Product Visual Reel", "Яскравий AI-промо ролик для запуску, reels і реклами."],
+        ["aiSong", "Birthday AI Song", "Персональна пісня з іменами, спогадами та AI-вокалом."],
+        ["aiSong", "Wedding First Dance Song", "Емоційна пісня-сюрприз для весільного моменту."],
+        ["websites", "Wedding Invitation Website", "Мобільне запрошення з RSVP-формою та відповідями в Telegram."],
+        ["websites", "Premium Service Landing", "Преміальний лендинг з офером, секціями, формою та готовим дизайном."],
+        ["bots", "Lead Request Bot", "Telegram-бот, який збирає заявки та надсилає структурований бриф власнику."],
+        ["bots", "Mini App Calculator", "Компактний Telegram mini app для форм, розрахунків або вибору послуги."]
       ]
     },
     process: {
-      eyebrow: "Як це працює", title: "Чіткий процес від сирої ідеї до відполірованого відео.",
+      eyebrow: "Як це працює", title: "Зрозумілий процес від емоційної ідеї до готового digital-результату.",
       steps: [
-        ["Ви надсилаєте ідею", "Опишіть історію, ціль, референси, аудиторію та бажаний стиль."],
-        ["Я створюю концепт, промти й візуальний напрям", "Формую сцени, персонажів, тон, промти та production plan."],
-        ["Я генерую та монтую відео", "Візуали, озвучка, музика, субтитри й монтаж складаються в цілісний ролик."],
-        ["Ви отримуєте фінальне відео", "Готовий файл для публікації, презентації, реклами або подарунка."]
+        ["Ви надсилаєте ідею", "Опишіть подію, ціль, аудиторію, референси, дедлайн і що має статися після запуску."],
+        ["Фіксуємо обсяг і ціну", "Я відділяю маленькі правки від великих переробок, щоб проєкт був чесним і передбачуваним."],
+        ["Починається виробництво", "Створюю візуали, пісню, екрани сайту, логіку бота або flow mini app залежно від послуги."],
+        ["Ви отримуєте результат", "Файли, посилання або launch-ready setup зі зрозумілими наступними кроками."]
       ]
     },
     faq: {
-      eyebrow: "FAQ", title: "Відповіді перед стартом роботи.",
+      eyebrow: "FAQ", title: "Важливі деталі перед стартом.",
       items: [
-        ["Що потрібно від мене для старту?", "Коротка ідея, ціль, бажаний стиль, референси, якщо є, дедлайн і потрібний формат."],
-        ["Чи можна створити персонажів за референсами?", "Так. Референси допомагають визначити образ, настрій і деталі, а фінальний результат лишається оригінальним AI-візуалом."],
-        ["Чи можна зробити відео моєю мовою?", "Так. Проєкт може включати озвучку, субтитри й текст на екрані різними мовами."],
-        ["Анімація повністю кастомна?", "Концепт, промти, сцени, монтаж і напрям створюються під проєкт. Точний результат залежить від можливостей AI-генерації та продакшну."],
-        ["Чи можна замовити довше відео?", "Так. Довгі формати можна оформити як custom project або розширити за допомогою add-ons."],
-        ["Ви надаєте комерційні права?", "Комерційне використання можна додати до проєкту. Точні умови підтверджуються перед виробництвом."],
-        ["Чи можна створити контент для TikTok, Instagram, YouTube?", "Так. Я можу створити вертикальні reels, shorts, рекламні креативи та версії під платформи."]
+        ["Проєкти конфіденційні?", "Так. Особисті історії, матеріали, референси та бізнес-ідеї обробляються уважно. Для чутливих проєктів можна узгодити NDA-style формулювання."],
+        ["Що таке AI-пісня?", "Це оригінальна пісня з персональним текстом і AI-вокалом. Такий формат підходить як подарунок на весілля, день народження, річницю, корпоратив або сюрприз."],
+        ["Що вважається маленькою правкою?", "Виправлення тексту, таймінгу, субтитрів, маленькі візуальні/аудіо коригування. Переробка сцени, зміна концепту або більша частина проєкту оцінюються окремо."],
+        ["Ви робите живу професійну озвучку?", "Жива озвучка лише за індивідуальною оцінкою. У стандартних пакетах використовується AI-озвучка, щоб ціна та строки залишались реалістичними."],
+        ["Що таке комерційне використання?", "Клієнт може використовувати фінальний результат для бізнесу, соцмереж, реклами або просування, якщо його матеріали й референси не порушують права третіх осіб."],
+        ["Сайт-запрошення може збирати відповіді гостей?", "Так. RSVP-анкета може надсилати підтвердження гостей і коментарі прямо в Telegram-бот або чат клієнта."],
+        ["Можна зробити будь-якого Telegram-бота?", "Можна зробити прості та середні за складністю боти, автоматизації та mini apps. Складні системи, оплати, бази даних і адмінки оцінюються окремо."]
       ]
     },
     form: {
-      name: "Імʼя", email: "Email", messenger: "Telegram / WhatsApp", projectLanguage: "Мова проєкту", projectType: "Тип проєкту", package: "Оберіть пакет", addons: "Додаткові послуги", idea: "Ідея / опис проєкту", references: "Посилання на референси", deadline: "Дедлайн", budget: "Бюджет", total: "Попередня сума", confirm: "Я розумію, що фінальна ціна може змінитися після обговорення проєкту", submit: "Надіслати заявку",
-      required: "Будь ласка, заповніть обовʼязкові поля та підтвердьте примітку про ціну.", sending: "Надсилаю заявку...", tokenMissing: "Telegram Bot Token або Chat ID не заповнені. Додайте їх у script.js перед відправкою заявок.", error: "Заявку не надіслано. Перевірте налаштування Telegram і спробуйте ще раз.", networkError: "Заявку не надіслано. Браузер не зміг підключитися до Telegram API. Перевірте інтернет, токен і обмеження хостингу.", success: "Заявку успішно надіслано. Дякую!",
-      projectTypes: ["AI-анімаційне відео", "3D cartoon story", "Реклама / креатив", "Контент для соцмереж", "Музичне відео", "Wedding / love story", "Індивідуальний проєкт"],
-      packages: { basic: "Basic — Short AI Clip", standard: "Standard — Animated Story Video", premium: "Premium — Full AI Animated Story", custom: "Індивідуальний проєкт" }
+      name: "Ім'я", email: "Email", messenger: "Telegram / WhatsApp", projectLanguage: "Мова проєкту", service: "Напрям послуги", package: "Оберіть пакет", addons: "Додаткові послуги", idea: "Ідея / опис проєкту", occasion: "Подія / бізнес-ціль", references: "Посилання на референси або нотатки", deadline: "Дедлайн", budget: "Бюджет", total: "Попередня сума", confirm: "Я розумію, що фінальна ціна може змінитися після обговорення обсягу проєкту", submit: "Надіслати заявку",
+      required: "Будь ласка, заповніть обов'язкові поля та підтвердьте примітку про ціну.", sending: "Надсилаю заявку...", tokenMissing: "Telegram Bot Token або Chat ID не заповнені. Додайте їх у script.js перед відправкою заявок.", error: "Заявку не надіслано. Перевірте налаштування Telegram і спробуйте ще раз.", networkError: "Заявку не надіслано. Браузер не зміг підключитися до Telegram API. Перевірте інтернет, токен і обмеження хостингу.", success: "Заявку успішно надіслано. Дякую!"
     },
-    footer: { tagline: "Cinematic AI-анімація від ідеї до фінального відео.", services: "Послуги", packages: "Пакети", contact: "Контакти", rights: "Усі права захищені." }
+    bot: { title: "Нова заявка Mult emotion", next: "Наступний крок: відповісти клієнту, підтвердити обсяг, дедлайн і матеріали до старту." },
+    footer: { tagline: "Creative AI, сайти та Telegram-інструменти для емоційних digital-проєктів.", services: "Послуги", packages: "Пакети", packageLink: "Відео / Пісні / Сайти / Боти", contact: "Контакти", rights: "Усі права захищені." }
   }
 };
 
-let currentLang = localStorage.getItem("aiCreatorLang") || "en";
+let currentLang = localStorage.getItem("multEmotionLang") || "ru";
+let activeCategory = localStorage.getItem("multEmotionCategory") || "aiVideo";
+let activePortfolio = "all";
 
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
@@ -363,11 +417,69 @@ function money(value) {
   return `$${value}`;
 }
 
+function currentCategoryData() {
+  return priceData[activeCategory];
+}
+
+function packageLabel(packageId) {
+  if (packageId === "custom") {
+    return translations[currentLang].packages.customOption;
+  }
+  const item = translations[currentLang].packages.items[packageId];
+  const price = Object.values(priceData).flatMap((category) => category.packages).find((pkg) => pkg.id === packageId)?.price;
+  return item ? `${item.name} — ${money(price)}` : packageId;
+}
+
+function escapeHTML(value) {
+  return String(value || "")
+    .replaceAll("&", "&amp;")
+    .replaceAll("<", "&lt;")
+    .replaceAll(">", "&gt;")
+    .replaceAll('"', "&quot;");
+}
+
+function isUrl(value) {
+  return /^https?:\/\//i.test(String(value || "").trim());
+}
+
+function telegramContactUrl(value) {
+  const text = String(value || "").trim();
+  const username = text.match(/(?:^|[\s/])@([a-zA-Z0-9_]{5,})/) || text.match(/t\.me\/([a-zA-Z0-9_]{5,})/);
+  return username ? `https://t.me/${username[1]}` : "";
+}
+
+function telegramButton({ fallbackEmoji, text, url, style, customEmojiId }) {
+  const button = {
+    text: customEmojiId ? text : `${fallbackEmoji} ${text}`,
+    url,
+    style
+  };
+
+  if (customEmojiId) {
+    button.icon_custom_emoji_id = customEmojiId;
+  }
+
+  return button;
+}
+
 function renderStaticTranslations() {
   $$("[data-i18n]").forEach((element) => {
     element.textContent = t(element.dataset.i18n);
   });
   document.documentElement.lang = currentLang === "ua" ? "uk" : currentLang;
+}
+
+function renderCategoryTabs() {
+  const markup = serviceOrder.map((category) => {
+    const data = translations[currentLang].categories[category];
+    return `
+      <button class="category-tab ${category === activeCategory ? "active" : ""}" type="button" data-category="${category}">
+        <strong>${data.emoji} ${data.label}</strong>
+        <span>${data.short}</span>
+      </button>
+    `;
+  }).join("");
+  $("#packageTabs").innerHTML = markup;
 }
 
 function renderServices() {
@@ -381,33 +493,48 @@ function renderServices() {
 }
 
 function renderPackages() {
-  const data = translations[currentLang].packages.items;
-  $("#packagesGrid").innerHTML = Object.entries(data).map(([id, item]) => `
-    <article class="package-card ${id === "standard" ? "featured" : ""}">
-      <h3>${item.name}</h3>
-      <p>${item.subtitle}</p>
-      <div class="price">${money(packagePrices[id])}</div>
-      <ul>${item.features.map((feature) => `<li>${feature}</li>`).join("")}</ul>
-      <button class="btn btn-primary" type="button" data-select-package="${id}">${translations[currentLang].packages.select}</button>
-    </article>
-  `).join("");
+  const items = translations[currentLang].packages.items;
+  $("#packagesGrid").innerHTML = currentCategoryData().packages.map((pkg, index) => {
+    const item = items[pkg.id];
+    return `
+      <article class="package-card ${index === 1 ? "featured" : ""}">
+        <h3>${item.name}</h3>
+        <p>${item.subtitle}</p>
+        <div class="price">${money(pkg.price)}</div>
+        <ul>${item.features.map((feature) => `<li>${feature}</li>`).join("")}</ul>
+        <button class="btn btn-primary" type="button" data-select-category="${activeCategory}" data-select-package="${pkg.id}">${translations[currentLang].packages.select}</button>
+      </article>
+    `;
+  }).join("");
 }
 
 function renderAddons() {
   const labels = translations[currentLang].addons.labels;
-  $("#addonsGrid").innerHTML = addons.map((addon) => `
+  $("#addonsGrid").innerHTML = currentCategoryData().addons.map((addon) => `
     <article class="addon-card">
       <p>${labels[addon.id]}</p>
       <strong class="addon-pill">${money(addon.price)}</strong>
     </article>
   `).join("");
 
-  $("#formAddons").innerHTML = addons.map((addon) => `
+  $("#formAddons").innerHTML = currentCategoryData().addons.map((addon) => `
     <label class="check-row">
       <input type="checkbox" name="addons" value="${addon.id}" data-price="${addon.price}">
       <span>${labels[addon.id]} — ${money(addon.price)}</span>
     </label>
   `).join("");
+}
+
+function renderPortfolioTabs() {
+  const allLabel = translations[currentLang].portfolio.all;
+  const tabs = [
+    `<button class="category-tab portfolio-filter ${activePortfolio === "all" ? "active" : ""}" type="button" data-portfolio="all"><strong>${allLabel}</strong><span>Mult emotion</span></button>`,
+    ...serviceOrder.map((category) => {
+      const data = translations[currentLang].categories[category];
+      return `<button class="category-tab portfolio-filter ${activePortfolio === category ? "active" : ""}" type="button" data-portfolio="${category}"><strong>${data.emoji} ${data.label}</strong><span>${data.short}</span></button>`;
+    })
+  ];
+  $("#portfolioTabs").innerHTML = tabs.join("");
 }
 
 function renderPortfolio() {
@@ -417,13 +544,15 @@ function renderPortfolio() {
     "radial-gradient(circle at 50% 26%, #b7ff2a, transparent 30%), radial-gradient(circle at 70% 82%, #8f4dff, transparent 34%), linear-gradient(135deg, #101010, #18253f)",
     "radial-gradient(circle at 24% 26%, #ffb82e, transparent 31%), radial-gradient(circle at 76% 66%, #18b7ff, transparent 34%), linear-gradient(135deg, #260820, #111735)",
     "radial-gradient(circle at 30% 30%, #18b7ff, transparent 30%), radial-gradient(circle at 80% 70%, #b7ff2a, transparent 34%), linear-gradient(135deg, #071020, #260c3f)",
-    "radial-gradient(circle at 30% 70%, #ff2dc8, transparent 30%), radial-gradient(circle at 75% 24%, #8f4dff, transparent 34%), linear-gradient(135deg, #160b24, #06121a)"
+    "radial-gradient(circle at 30% 70%, #ff2dc8, transparent 30%), radial-gradient(circle at 75% 24%, #8f4dff, transparent 34%), linear-gradient(135deg, #160b24, #06121a)",
+    "radial-gradient(circle at 30% 30%, #b7ff2a, transparent 30%), radial-gradient(circle at 72% 74%, #18b7ff, transparent 34%), linear-gradient(135deg, #061612, #24135a)",
+    "radial-gradient(circle at 30% 70%, #ff2dc8, transparent 30%), radial-gradient(circle at 75% 24%, #b7ff2a, transparent 34%), linear-gradient(135deg, #111111, #072b35)"
   ];
-
-  $("#portfolioGrid").innerHTML = translations[currentLang].portfolio.items.map(([title, text], index) => `
-    <article class="portfolio-card" style="--art: ${gradients[index]}">
-      <div class="play-dot">▶</div>
-      <span>${translations[currentLang].portfolio.tag}</span>
+  const items = translations[currentLang].portfolio.items.filter(([category]) => activePortfolio === "all" || category === activePortfolio);
+  $("#portfolioGrid").innerHTML = items.map(([category, title, text], index) => `
+    <article class="portfolio-card" style="--art: ${gradients[index % gradients.length]}">
+      <div class="play-dot">${translations[currentLang].categories[category].emoji}</div>
+      <span>${translations[currentLang].portfolio.tag} · ${translations[currentLang].categories[category].label}</span>
       <h3>${title}</h3>
       <p>${text}</p>
     </article>
@@ -453,30 +582,33 @@ function renderFaq() {
 }
 
 function renderSelects() {
-  const typeSelect = $("#projectType");
+  const serviceSelect = $("#serviceSelect");
   const packageSelect = $("#packageSelect");
-  const selectedType = typeSelect.value;
-  const selectedPackage = packageSelect.value || "basic";
+  const selectedPackage = packageSelect.value;
 
-  typeSelect.innerHTML = translations[currentLang].form.projectTypes
-    .map((type) => `<option value="${type}">${type}</option>`)
-    .join("");
+  serviceSelect.innerHTML = serviceOrder.map((category) => {
+    const data = translations[currentLang].categories[category];
+    return `<option value="${category}">${data.emoji} ${data.label}</option>`;
+  }).join("");
+  serviceSelect.value = activeCategory;
 
-  packageSelect.innerHTML = Object.entries(translations[currentLang].form.packages)
-    .map(([id, label]) => `<option value="${id}">${label}</option>`)
-    .join("");
+  packageSelect.innerHTML = [
+    ...currentCategoryData().packages.map((pkg) => `<option value="${pkg.id}">${packageLabel(pkg.id)}</option>`),
+    `<option value="custom">${translations[currentLang].packages.customOption}</option>`
+  ].join("");
 
-  if ([...typeSelect.options].some((option) => option.value === selectedType)) {
-    typeSelect.value = selectedType;
+  if ([...packageSelect.options].some((option) => option.value === selectedPackage)) {
+    packageSelect.value = selectedPackage;
   }
-  packageSelect.value = selectedPackage;
 }
 
 function renderAll() {
   renderStaticTranslations();
+  renderCategoryTabs();
   renderServices();
   renderPackages();
   renderAddons();
+  renderPortfolioTabs();
   renderPortfolio();
   renderProcess();
   renderFaq();
@@ -485,11 +617,8 @@ function renderAll() {
   $$(".lang-btn").forEach((button) => button.classList.toggle("active", button.dataset.lang === currentLang));
 }
 
-function updateTotal() {
-  const packageId = $("#packageSelect")?.value || "basic";
-  const packageTotal = packagePrices[packageId] || 0;
-  const addonsTotal = $$("input[name='addons']:checked").reduce((sum, checkbox) => sum + Number(checkbox.dataset.price), 0);
-  $("#totalPrice").textContent = money(packageTotal + addonsTotal);
+function packagePrice(packageId) {
+  return currentCategoryData().packages.find((pkg) => pkg.id === packageId)?.price || 0;
 }
 
 function selectedAddonLabels() {
@@ -497,29 +626,74 @@ function selectedAddonLabels() {
   return $$("input[name='addons']:checked").map((checkbox) => `${labels[checkbox.value]} — ${money(Number(checkbox.dataset.price))}`);
 }
 
+function updateTotal() {
+  const packageId = $("#packageSelect")?.value || currentCategoryData().packages[0].id;
+  const addonsTotal = $$("input[name='addons']:checked").reduce((sum, checkbox) => sum + Number(checkbox.dataset.price), 0);
+  const packageTotal = packagePrice(packageId);
+
+  if (packageId === "custom") {
+    $("#totalPrice").textContent = addonsTotal ? `${money(addonsTotal)} + ${translations[currentLang].packages.customOption}` : translations[currentLang].packages.customOption;
+    return;
+  }
+
+  $("#totalPrice").textContent = money(packageTotal + addonsTotal);
+}
+
+function buildTelegramButtons(form) {
+  const data = new FormData(form);
+  const rows = [];
+  const contactUrl = telegramContactUrl(data.get("messenger"));
+  const references = String(data.get("references") || "").trim();
+
+  if (contactUrl) {
+    rows.push([telegramButton({
+      fallbackEmoji: "💬",
+      text: "Reply in Telegram",
+      url: contactUrl,
+      style: "primary",
+      customEmojiId: TELEGRAM_BUTTON_CUSTOM_EMOJI.reply
+    })]);
+  }
+  if (isUrl(references)) {
+    rows.push([telegramButton({
+      fallbackEmoji: "🔎",
+      text: "Open references",
+      url: references,
+      style: "success",
+      customEmojiId: TELEGRAM_BUTTON_CUSTOM_EMOJI.references
+    })]);
+  }
+
+  return rows.length ? JSON.stringify({ inline_keyboard: rows }) : "";
+}
+
 function buildTelegramMessage(form) {
   const data = new FormData(form);
-  const selectedPackageId = data.get("package");
-  const selectedPackageLabel = translations[currentLang].form.packages[selectedPackageId];
-  const total = $("#totalPrice").textContent;
-  const addonText = selectedAddonLabels().join("\n") || "None";
+  const service = translations[currentLang].categories[data.get("service")];
+  const addonText = selectedAddonLabels().map(escapeHTML).join("\n") || "None";
 
   return [
-    "New AI Project Request",
+    `✨ <b>${escapeHTML(translations[currentLang].bot.title)}</b>`,
     "",
-    `Name: ${data.get("name")}`,
-    `Email: ${data.get("email")}`,
-    `Telegram / WhatsApp: ${data.get("messenger")}`,
-    `Language: ${data.get("projectLanguage")}`,
-    `Project type: ${data.get("projectType")}`,
-    `Selected package: ${selectedPackageLabel}`,
-    `Add-ons:\n${addonText}`,
-    `Project idea: ${data.get("idea")}`,
-    `References: ${data.get("references") || "Not provided"}`,
-    `Deadline: ${data.get("deadline") || "Not provided"}`,
-    `Budget: ${data.get("budget") || "Not provided"}`,
-    `Estimated total: ${total}`,
-    `Page language: ${currentLang.toUpperCase()}`
+    `🎯 <b>Service:</b> ${escapeHTML(service.label)}`,
+    `📦 <b>Package:</b> ${escapeHTML(packageLabel(data.get("package")))}`,
+    `➕ <b>Add-ons:</b>\n${addonText}`,
+    `💰 <b>Estimated total:</b> ${escapeHTML($("#totalPrice").textContent)}`,
+    "",
+    `👤 <b>Name:</b> ${escapeHTML(data.get("name"))}`,
+    `📧 <b>Email:</b> ${escapeHTML(data.get("email"))}`,
+    `💬 <b>Telegram / WhatsApp:</b> ${escapeHTML(data.get("messenger"))}`,
+    `🌐 <b>Project language:</b> ${escapeHTML(data.get("projectLanguage"))}`,
+    `🎁 <b>Occasion / goal:</b> ${escapeHTML(data.get("occasion") || "Not provided")}`,
+    `⏰ <b>Deadline:</b> ${escapeHTML(data.get("deadline") || "Not provided")}`,
+    `💳 <b>Budget:</b> ${escapeHTML(data.get("budget") || "Not provided")}`,
+    `🔗 <b>References:</b> ${escapeHTML(data.get("references") || "Not provided")}`,
+    "",
+    `📝 <b>Idea:</b>\n${escapeHTML(data.get("idea"))}`,
+    "",
+    `🔐 <b>Note:</b> Confidential request. Confirm scope before production.`,
+    `✅ ${escapeHTML(translations[currentLang].bot.next)}`,
+    `🌍 <b>Page language:</b> ${currentLang.toUpperCase()}`
   ].join("\n");
 }
 
@@ -555,8 +729,14 @@ async function handleSubmit(event) {
   try {
     const body = new URLSearchParams({
       chat_id: TELEGRAM_CHAT_ID,
-      text: buildTelegramMessage(form)
+      text: buildTelegramMessage(form),
+      parse_mode: "HTML",
+      disable_web_page_preview: "true"
     });
+    const replyMarkup = buildTelegramButtons(form);
+    if (replyMarkup) {
+      body.set("reply_markup", replyMarkup);
+    }
 
     const response = await fetch(`https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`, {
       method: "POST",
@@ -570,8 +750,9 @@ async function handleSubmit(event) {
     }
 
     form.reset();
-    $("#packageSelect").value = "basic";
-    updateTotal();
+    activeCategory = "aiVideo";
+    localStorage.setItem("multEmotionCategory", activeCategory);
+    renderAll();
     setStatus(translations[currentLang].form.success, "success");
   } catch (error) {
     console.error(error);
@@ -580,6 +761,16 @@ async function handleSubmit(event) {
       : `${translations[currentLang].form.error} ${error.message}`;
     setStatus(message, "error");
   }
+}
+
+function setActiveCategory(category) {
+  activeCategory = category;
+  localStorage.setItem("multEmotionCategory", activeCategory);
+  renderCategoryTabs();
+  renderPackages();
+  renderAddons();
+  renderSelects();
+  updateTotal();
 }
 
 function setupEvents() {
@@ -595,10 +786,17 @@ function setupEvents() {
 
   document.addEventListener("click", (event) => {
     const packageButton = event.target.closest("[data-select-package]");
+    const categoryButton = event.target.closest("[data-category]");
     const customButton = event.target.closest("[data-action='custom-project']");
+    const portfolioButton = event.target.closest("[data-portfolio]");
     const faqButton = event.target.closest(".faq-question");
 
+    if (categoryButton) {
+      setActiveCategory(categoryButton.dataset.category);
+    }
+
     if (packageButton) {
+      setActiveCategory(packageButton.dataset.selectCategory);
       $("#packageSelect").value = packageButton.dataset.selectPackage;
       updateTotal();
       $("#order").scrollIntoView({ behavior: "smooth" });
@@ -606,10 +804,15 @@ function setupEvents() {
 
     if (customButton) {
       $("#packageSelect").value = "custom";
-      const customType = translations[currentLang].form.projectTypes.at(-1);
-      $("#projectType").value = customType;
       updateTotal();
       $("#order").scrollIntoView({ behavior: "smooth" });
+      $("textarea[name='idea']").focus({ preventScroll: true });
+    }
+
+    if (portfolioButton) {
+      activePortfolio = portfolioButton.dataset.portfolio;
+      renderPortfolioTabs();
+      renderPortfolio();
     }
 
     if (faqButton) {
@@ -622,9 +825,13 @@ function setupEvents() {
   $$(".lang-btn").forEach((button) => {
     button.addEventListener("click", () => {
       currentLang = button.dataset.lang;
-      localStorage.setItem("aiCreatorLang", currentLang);
+      localStorage.setItem("multEmotionLang", currentLang);
       renderAll();
     });
+  });
+
+  $("#serviceSelect").addEventListener("change", (event) => {
+    setActiveCategory(event.target.value);
   });
 
   $("#orderForm").addEventListener("change", (event) => {
