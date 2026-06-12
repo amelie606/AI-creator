@@ -1,6 +1,6 @@
 :root {
-  --bg: #080812;
-  --bg-soft: #111121;
+  --bg: #050510;
+  --bg-soft: #121126;
   --text: #ffffff;
   --muted: #c7c6dd;
   --line: rgba(255, 255, 255, 0.14);
@@ -12,7 +12,7 @@
   --blue: #18b7ff;
   --danger: #ff6a8a;
   --success: #9cff6e;
-  --shadow: 0 24px 90px rgba(0, 0, 0, 0.5);
+  --shadow: 0 28px 110px rgba(0, 0, 0, 0.56);
 }
 
 * {
@@ -28,9 +28,10 @@ body {
   color: var(--text);
   font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
   background:
-    radial-gradient(circle at 18% 8%, rgba(255, 45, 200, 0.22), transparent 28rem),
-    radial-gradient(circle at 85% 18%, rgba(24, 183, 255, 0.18), transparent 24rem),
-    linear-gradient(135deg, #07070e 0%, #111026 54%, #06070b 100%);
+    radial-gradient(circle at 16% 8%, rgba(255, 45, 200, 0.32), transparent 30rem),
+    radial-gradient(circle at 86% 18%, rgba(24, 183, 255, 0.26), transparent 28rem),
+    radial-gradient(circle at 48% 58%, rgba(183, 255, 42, 0.12), transparent 32rem),
+    linear-gradient(135deg, #05050c 0%, #171039 50%, #05070a 100%);
   min-height: 100vh;
   overflow-x: hidden;
 }
@@ -62,11 +63,11 @@ textarea {
 
 .ambient {
   position: fixed;
-  width: 22rem;
-  height: 22rem;
+  width: 24rem;
+  height: 24rem;
   border-radius: 50%;
-  filter: blur(24px);
-  opacity: 0.3;
+  filter: blur(22px);
+  opacity: 0.34;
   pointer-events: none;
   z-index: -1;
   animation: float 9s ease-in-out infinite alternate;
@@ -85,6 +86,26 @@ textarea {
   animation-delay: -4s;
 }
 
+.ambient-three {
+  left: 42%;
+  top: 7rem;
+  width: 16rem;
+  height: 16rem;
+  background: var(--blue);
+  opacity: 0.18;
+  animation-delay: -7s;
+}
+
+.ambient-four {
+  left: 18%;
+  bottom: -8rem;
+  width: 28rem;
+  height: 28rem;
+  background: var(--violet);
+  opacity: 0.22;
+  animation-delay: -2s;
+}
+
 .site-header {
   position: sticky;
   top: 0;
@@ -97,7 +118,7 @@ textarea {
   margin: 16px auto 0;
   padding: 12px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 20px;
   background: rgba(9, 9, 20, 0.78);
   backdrop-filter: blur(22px);
   box-shadow: 0 18px 60px rgba(0, 0, 0, 0.34);
@@ -115,12 +136,12 @@ textarea {
 .logo-mark {
   display: inline-grid;
   place-items: center;
-  width: 38px;
-  height: 38px;
-  border-radius: 8px;
+  width: 42px;
+  height: 42px;
+  border-radius: 15px;
   color: #050507;
   background: linear-gradient(135deg, var(--lime), var(--blue), var(--pink));
-  box-shadow: 0 0 28px rgba(183, 255, 42, 0.32);
+  box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.52), 0 0 30px rgba(183, 255, 42, 0.42);
 }
 
 .nav {
@@ -150,13 +171,13 @@ textarea {
   display: flex;
   padding: 4px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 16px;
   background: rgba(255, 255, 255, 0.06);
 }
 
 .lang-btn {
   border: 0;
-  border-radius: 6px;
+  border-radius: 12px;
   color: var(--muted);
   background: transparent;
   padding: 7px 9px;
@@ -175,7 +196,7 @@ textarea {
   width: 42px;
   height: 42px;
   border: 1px solid var(--line);
-  border-radius: 8px;
+  border-radius: 16px;
   background: var(--glass);
   cursor: pointer;
 }
@@ -268,32 +289,45 @@ h2 {
   justify-content: center;
   min-height: 48px;
   border: 1px solid transparent;
-  border-radius: 8px;
-  padding: 13px 19px;
+  border-radius: 999px;
+  padding: 14px 23px;
   color: var(--text);
   cursor: pointer;
   font-weight: 900;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  text-shadow: 0 1px 0 rgba(255, 255, 255, 0.16);
+  transform: translateZ(0);
+  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease, filter 0.2s ease;
 }
 
 .btn:hover {
-  transform: translateY(-2px);
+  transform: translateY(-3px) scale(1.015);
+  filter: saturate(1.15);
 }
 
 .btn-primary {
   color: #050507;
   background: linear-gradient(135deg, var(--lime), var(--blue), var(--pink));
-  box-shadow: 0 0 34px rgba(255, 45, 200, 0.28), 0 0 28px rgba(183, 255, 42, 0.18);
+  box-shadow:
+    inset 0 3px 10px rgba(255, 255, 255, 0.54),
+    inset 0 -6px 14px rgba(0, 0, 0, 0.18),
+    0 15px 0 rgba(79, 25, 121, 0.58),
+    0 0 42px rgba(255, 45, 200, 0.38),
+    0 0 34px rgba(183, 255, 42, 0.28);
 }
 
 .btn-secondary {
   background: linear-gradient(135deg, rgba(255, 45, 200, 0.9), rgba(143, 77, 255, 0.9));
-  box-shadow: 0 0 28px rgba(143, 77, 255, 0.25);
+  box-shadow:
+    inset 0 3px 10px rgba(255, 255, 255, 0.28),
+    inset 0 -6px 14px rgba(0, 0, 0, 0.24),
+    0 12px 0 rgba(41, 22, 80, 0.72),
+    0 0 34px rgba(143, 77, 255, 0.34);
 }
 
 .btn-ghost {
   border-color: var(--line);
   background: rgba(255, 255, 255, 0.07);
+  box-shadow: inset 0 2px 12px rgba(255, 255, 255, 0.1), 0 10px 0 rgba(0, 0, 0, 0.2);
 }
 
 .btn-small {
@@ -437,11 +471,66 @@ h2 {
 }
 
 .service-grid {
-  grid-template-columns: repeat(5, minmax(0, 1fr));
+  grid-template-columns: repeat(3, minmax(0, 1fr));
 }
 
 .packages-grid {
   grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.category-tabs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 12px;
+  margin: 0 0 22px;
+}
+
+.category-tab {
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  min-height: 74px;
+  padding: 11px 16px;
+  color: var(--text);
+  text-align: left;
+  cursor: pointer;
+  background:
+    linear-gradient(145deg, rgba(255, 255, 255, 0.13), rgba(255, 255, 255, 0.04)),
+    rgba(255, 255, 255, 0.05);
+  box-shadow: inset 0 2px 12px rgba(255, 255, 255, 0.08), 0 14px 36px rgba(0, 0, 0, 0.22);
+  transition: transform 0.2s ease, border-color 0.2s ease, box-shadow 0.2s ease, background 0.2s ease;
+}
+
+.category-tab:hover {
+  transform: translateY(-3px);
+  border-color: rgba(183, 255, 42, 0.46);
+}
+
+.category-tab.active {
+  color: #050507;
+  border-color: transparent;
+  background: linear-gradient(135deg, var(--lime), var(--blue), var(--pink));
+  box-shadow:
+    inset 0 3px 10px rgba(255, 255, 255, 0.45),
+    inset 0 -7px 18px rgba(0, 0, 0, 0.18),
+    0 0 32px rgba(183, 255, 42, 0.22),
+    0 18px 52px rgba(255, 45, 200, 0.18);
+}
+
+.category-tab strong,
+.category-tab span {
+  display: block;
+}
+
+.category-tab strong {
+  font-size: 0.93rem;
+}
+
+.category-tab span {
+  margin-top: 4px;
+  color: currentColor;
+  opacity: 0.72;
+  font-size: 0.78rem;
+  line-height: 1.25;
 }
 
 .portfolio-grid {
@@ -879,6 +968,10 @@ textarea {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .category-tabs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+
   .packages-grid,
   .portfolio-grid,
   .process-grid {
@@ -944,6 +1037,7 @@ textarea {
   .portfolio-grid,
   .process-grid,
   .addons-grid,
+  .category-tabs,
   .form-grid,
   .addons-checklist,
   .footer {
