@@ -178,9 +178,13 @@ const translations = {
         ["Can you build any Telegram bot?", "I can build simple and medium-complexity bots, automations and mini apps. Complex systems, payments, databases and admin panels are estimated separately."]
       ]
     },
+    order: {
+      eyebrow: "Private request",
+      title: "Tell me what you want to create — I will prepare a careful scope and estimate."
+    },
     form: {
       name: "Name", email: "Email", messenger: "Telegram / WhatsApp", projectLanguage: "Project language", service: "Service direction", package: "Select package", addons: "Add-ons", idea: "Project idea / description", occasion: "Occasion / business goal", references: "References link or notes", deadline: "Deadline", budget: "Budget", total: "Estimated total", confirm: "I understand that final price may change after discussing the project scope", submit: "Send request",
-      required: "Please fill in all required fields and confirm the price note.", sending: "Sending request...", tokenMissing: "Telegram Bot Token or Chat ID is not filled in. Add them in script.js before sending requests.", error: "Request was not sent. Please check the Telegram settings and try again.", networkError: "Request was not sent. Browser could not reach Telegram API. Check internet, token and hosting restrictions.", success: "Request sent successfully. Thank you!"
+      required: "Please fill in all required fields and confirm the price note.", sending: "Sending request...", tokenMissing: "Telegram Bot Token or Chat ID is not configured on the server. Add TELEGRAM_BOT_TOKEN and TELEGRAM_CHAT_ID environment variables.", error: "Request was not sent. Please check the Telegram settings and try again.", networkError: "Request was not sent. Browser could not reach Telegram API. Check internet, token and hosting restrictions.", success: "Request sent successfully. Thank you!"
     },
     bot: { title: "New Mult emotion request", next: "Next step: reply to the client, confirm scope, deadline and materials before production." },
     footer: { tagline: "Creative AI, websites and Telegram tools for emotional digital projects.", services: "Services", packages: "Packages", packageLink: "Video / Songs / Websites / Bots", contact: "Contact", rights: "All rights reserved." }
@@ -284,9 +288,13 @@ const translations = {
         ["Можно сделать любого Telegram-бота?", "Можно сделать простые и средние по сложности боты, автоматизации и mini apps. Сложные системы, оплаты, базы данных и админки оцениваются отдельно."]
       ]
     },
+    order: {
+      eyebrow: "Заявка",
+      title: "Расскажите, что хотите создать — я соберу аккуратный бриф и оценку."
+    },
     form: {
       name: "Имя", email: "Email", messenger: "Telegram / WhatsApp", projectLanguage: "Язык проекта", service: "Направление услуги", package: "Выберите пакет", addons: "Дополнительные услуги", idea: "Идея / описание проекта", occasion: "Событие / бизнес-цель", references: "Ссылка на референсы или заметки", deadline: "Дедлайн", budget: "Бюджет", total: "Предварительная сумма", confirm: "Я понимаю, что финальная цена может измениться после обсуждения объема проекта", submit: "Отправить заявку",
-      required: "Пожалуйста, заполните обязательные поля и подтвердите примечание о цене.", sending: "Отправляю заявку...", tokenMissing: "Telegram Bot Token или Chat ID не заполнены. Добавьте их в script.js перед отправкой заявок.", error: "Заявка не отправилась. Проверьте настройки Telegram и попробуйте снова.", networkError: "Заявка не отправилась. Браузер не смог подключиться к Telegram API. Проверьте интернет, токен и ограничения хостинга.", success: "Заявка успешно отправлена. Спасибо!"
+      required: "Пожалуйста, заполните обязательные поля и подтвердите примечание о цене.", sending: "Отправляю заявку...", tokenMissing: "Telegram Bot Token или Chat ID не настроены на сервере. Добавьте TELEGRAM_BOT_TOKEN и TELEGRAM_CHAT_ID в переменные окружения.", error: "Заявка не отправилась. Проверьте настройки Telegram и попробуйте снова.", networkError: "Заявка не отправилась. Браузер не смог подключиться к Telegram API. Проверьте интернет, токен и ограничения хостинга.", success: "Заявка успешно отправлена. Спасибо!"
     },
     bot: { title: "Новая заявка Mult emotion", next: "Следующий шаг: ответить клиенту, подтвердить объем, дедлайн и материалы до старта." },
     footer: { tagline: "Creative AI, сайты и Telegram-инструменты для эмоциональных digital-проектов.", services: "Услуги", packages: "Пакеты", packageLink: "Видео / Песни / Сайты / Боты", contact: "Контакты", rights: "Все права защищены." }
@@ -385,9 +393,13 @@ const translations = {
         ["Можна зробити будь-якого Telegram-бота?", "Можна зробити прості та середні за складністю боти, автоматизації та mini apps. Складні системи, оплати, бази даних і адмінки оцінюються окремо."]
       ]
     },
+    order: {
+      eyebrow: "Заявка",
+      title: "Розкажіть, що хочете створити — я підготую акуратний бриф і оцінку."
+    },
     form: {
       name: "Ім'я", email: "Email", messenger: "Telegram / WhatsApp", projectLanguage: "Мова проєкту", service: "Напрям послуги", package: "Оберіть пакет", addons: "Додаткові послуги", idea: "Ідея / опис проєкту", occasion: "Подія / бізнес-ціль", references: "Посилання на референси або нотатки", deadline: "Дедлайн", budget: "Бюджет", total: "Попередня сума", confirm: "Я розумію, що фінальна ціна може змінитися після обговорення обсягу проєкту", submit: "Надіслати заявку",
-      required: "Будь ласка, заповніть обов'язкові поля та підтвердьте примітку про ціну.", sending: "Надсилаю заявку...", tokenMissing: "Telegram Bot Token або Chat ID не заповнені. Додайте їх у script.js перед відправкою заявок.", error: "Заявку не надіслано. Перевірте налаштування Telegram і спробуйте ще раз.", networkError: "Заявку не надіслано. Браузер не зміг підключитися до Telegram API. Перевірте інтернет, токен і обмеження хостингу.", success: "Заявку успішно надіслано. Дякую!"
+      required: "Будь ласка, заповніть обов'язкові поля та підтвердьте примітку про ціну.", sending: "Надсилаю заявку...", tokenMissing: "Telegram Bot Token або Chat ID не налаштовані на сервері. Додайте TELEGRAM_BOT_TOKEN і TELEGRAM_CHAT_ID у змінні оточення.", error: "Заявку не надіслано. Перевірте налаштування Telegram і спробуйте ще раз.", networkError: "Заявку не надіслано. Браузер не зміг підключитися до Telegram API. Перевірте інтернет, токен і обмеження хостингу.", success: "Заявку успішно надіслано. Дякую!"
     },
     bot: { title: "Нова заявка Mult emotion", next: "Наступний крок: відповісти клієнту, підтвердити обсяг, дедлайн і матеріали до старту." },
     footer: { tagline: "Creative AI, сайти та Telegram-інструменти для емоційних digital-проєктів.", services: "Послуги", packages: "Пакети", packageLink: "Відео / Пісні / Сайти / Боти", contact: "Контакти", rights: "Усі права захищені." }
